@@ -1,3 +1,6 @@
+I apologize for the oversight. Let's integrate the CSS styles into the HTML document. Here's the full code with the styles included:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +8,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sunny Years - Retirement Calculator</title>
     <style>
-        /* ... [previous styles remain unchanged] ... */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            display: flex;
+        }
+
+        #header {
+            flex: 1;
+            padding-right: 20px;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #header h1 {
+            font-size: 24px;
+            color: #007BFF;
+        }
+
+        #header h2 {
+            font-size: 18px;
+            color: #555;
+            text-align: center;
+        }
+
+        #content {
+            flex: 2;
+            padding-left: 20px;
+        }
+
+        select, input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #expenses div {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        #expenses img {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -86,7 +167,9 @@
         const expenseDiv = document.getElementById("expenses");
         expenseDiv.innerHTML = ""; // Clear previous expenses
 
-        for (let item in expenses[country]) {
+       
+
+ for (let item in expenses[country]) {
             const expenseItem = document.createElement("div");
             expenseItem.innerHTML = `
                 <img src="${item.replace(/ /g, '').toLowerCase()}.jpg" alt="${item}" width="50">
@@ -99,3 +182,6 @@
 
 </body>
 </html>
+```
+
+This code includes the CSS styles, the logic to fetch data from the `countryData.json` file, and the functions to calculate retirement years and display expenses.
