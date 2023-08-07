@@ -79,19 +79,19 @@
         displayExpenses(country);
     }
 
-    function displayExpenses(country) {
-        const expenseDiv = document.getElementById("expenses");
-        expenseDiv.innerHTML = ""; // Clear previous expenses
+function displayExpenses(country) {
+    const expenseDiv = document.getElementById("expenses");
+    expenseDiv.innerHTML = ""; // Clear previous expenses
 
-        for (let item in expenses[country]) {
-            const expenseItem = document.createElement("div");
-            expenseItem.innerHTML = `
-                <img src="${item.replace(/ /g, '').toLowerCase()}.jpg" alt="${item}" width="50">
-                <p>${item}: ${expenses[country][item]}</p>
-            `;
-            expenseDiv.appendChild(expenseItem);
-        }
+    for (let item in expenses[country]) {
+        const expenseItem = document.createElement("div");
+        expenseItem.style.backgroundImage = `url(${item.replace(/ /g, '').toLowerCase()}.jpg)`;
+        expenseItem.style.backgroundSize = 'cover';
+        expenseItem.innerHTML = `<p>${item}: ${expenses[country][item]}</p>`;
+        expenseDiv.appendChild(expenseItem);
     }
+}
+
 </script>
 
 </body>
