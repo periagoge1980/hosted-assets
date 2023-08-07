@@ -82,7 +82,7 @@ button:hover {
     border: 1px solid #e0e0e0;
     padding: 10px;
     border-radius: 5px;
-    color: white; /* Make the text white */
+    color: black; /* Make the text white */
     font-weight: bold; /* Make the text bold */
     background-size: cover;
     background-position: center;
