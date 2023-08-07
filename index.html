@@ -25,7 +25,7 @@
         </select>
 
         <!-- Input for retirement fund -->
-        <label for="retirementFund">Enter your retirement fund: </label>
+        <label for="retirementFund">Enter your total expected retirement funds in USD: </label>
         <input type="number" id="retirementFund">
 
         <!-- Button to calculate -->
@@ -74,7 +74,7 @@
         const yearsInUSA = Math.floor(totalYearsInUSA);
         const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
 
-        document.getElementById("result").innerText = `Great choice! ${country} is a great retirement destination. Your retirement fund would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.`;
+        document.getElementById("result").innerText = `Great choice! ${country} is a great retirement destination. Your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.`;
 
         Now, consider the price range for these common expenses in ${country}:  
         displayExpenses(country);
