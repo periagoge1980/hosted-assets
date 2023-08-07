@@ -38,6 +38,12 @@ body {
     text-align: center;
 }
 
+#header h3 {
+    font-size: 22px;
+    color: #007BFF;
+    text-align: center;
+}
+
 #content {
     flex: 2;
     padding-left: 20px;
