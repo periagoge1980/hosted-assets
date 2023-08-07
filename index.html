@@ -38,9 +38,7 @@
         <div id="expenses"></div>
     </div>
 </div>
-<div>
-<H2>Good Choice!</H2>
-    <BR>
+
 
 <script>
     let retirementCosts = {};
@@ -77,7 +75,7 @@
         const yearsInUSA = Math.floor(totalYearsInUSA);
         const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
 
-        document.getElementById("result").innerText = `Great choice!\n ${country} is a great retirement destination.\n \n Your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.\n \n Now, consider the price range for these common expenses in ${country}:`;
+        document.getElementById("result").innerText = `bold(Great choice!)\n ${country} is a great retirement destination.\n \n Your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.\n \n Now, consider the price range for these common expenses in ${country}:`;
 
         displayExpenses(country);
     }
@@ -96,6 +94,6 @@ function displayExpenses(country) {
 }
 
 </script>
-</div>
+
 </body>
 </html>
