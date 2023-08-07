@@ -57,6 +57,15 @@
     function calculateYears() {
         const country = document.getElementById("country").value;
         const fund = parseFloat(document.getElementById("retirementFund").value);
+        document.getElementById("retirementFund").addEventListener("keyup", function(event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        calculateYears();
+    }
+});
 
         if (isNaN(fund)) {
             document.getElementById("result").innerText = "Please enter a valid retirement fund amount.";
@@ -77,6 +86,8 @@
         const yearsInUSA = Math.floor(totalYearsInUSA);
         const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
 
+
+        
         document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br> Your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
         displayExpenses(country);
     }
