@@ -68,15 +68,32 @@ button:hover {
     margin-top: 20px;
 }
 
-#expenses {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
 #expenses div {
+    position: relative;
     display: flex;
+    justify-content: center;
     align-items: center;
     border: 1px solid #e0e0e0;
     padding: 10px;
     border-radius: 5px;
+    color: white; /* Make the text white */
+    font-weight: bold; /* Make the text bold */
+}
+
+#expenses div::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: inherit;
+    opacity: 0.6; /* Make the image semi-transparent */
+    border-radius: inherit;
+    z-index: -1;
+}
+
+#expenses div p {
+    position: relative;
+    z-index: 1;
+}
