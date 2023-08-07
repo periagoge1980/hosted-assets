@@ -105,8 +105,3 @@ button:hover {
     position: relative;
     z-index: 1;
 }
-
-#expenses div p {
-    position: relative;
-    z-index: 1;
-}
