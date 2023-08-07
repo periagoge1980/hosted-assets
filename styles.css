@@ -96,7 +96,7 @@ button:hover {
     bottom: 0;
     left: 0;
     background: inherit;
-    opacity: 0.4; /* Make the image semi-transparent */
+    opacity: 0.3; /* Make the image semi-transparent */
     border-radius: inherit;
     z-index: -1;
 }
