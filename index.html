@@ -74,9 +74,8 @@
         const yearsInUSA = Math.floor(totalYearsInUSA);
         const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
 
-        document.getElementById("result").innerText = `Great choice! ${country} is a great retirement destination. Your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.`;
+        document.getElementById("result").innerText = `Great choice! ${country} is a great retirement destination. Your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA. Now, consider the price range for these common expenses in ${country}:`;
 
-        Now, consider the price range for these common expenses in ${country}:  
         displayExpenses(country);
     }
 
@@ -84,9 +83,7 @@
         const expenseDiv = document.getElementById("expenses");
         expenseDiv.innerHTML = ""; // Clear previous expenses
 
-       
-
- for (let item in expenses[country]) {
+        for (let item in expenses[country]) {
             const expenseItem = document.createElement("div");
             expenseItem.innerHTML = `
                 <img src="${item.replace(/ /g, '').toLowerCase()}.jpg" alt="${item}" width="50">
