@@ -75,8 +75,8 @@
         const yearsInUSA = Math.floor(totalYearsInUSA);
         const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
 
-        document.getElementById("result").innerText = `bold(Great choice!)\n ${country} is a great retirement destination.\n \n Your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.\n \n Now, consider the price range for these common expenses in ${country}:`;
-
+        document.getElementById("result").innerText = `Great choice!\n ${country} is a great retirement destination.\n \n Your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.\n`;
+        document.getElementById("result").innerHTML = `<br><b>Now, consider the price range for these common expenses in that country:</b>`;
         displayExpenses(country);
     }
 
