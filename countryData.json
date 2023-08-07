@@ -2,7 +2,7 @@
     "retirementCosts": {
         "USA": 60000,
         "Panama": 25000,
-        "CostaRica": 27500,
+        "Costa Rica": 27500,
         "Colombia": 17000,
         "Thailand": 15000,
         "Ecuador": 16000,
@@ -26,7 +26,7 @@
             "Public transport - monthly": "$30 - $50",
             "Doctor check-up": "$30 - $60"
         },
-        "CostaRica": {
+        "Costa Rica": {
             "One coffee": "$1 - $3",
             "One beer": "$2 - $4",
             "One restaurant meal": "$8 - $20",
