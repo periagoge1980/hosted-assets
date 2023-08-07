@@ -68,6 +68,12 @@ button:hover {
     margin-top: 20px;
 }
 
+#expenses {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
 #expenses div {
     position: relative;
     display: flex;
@@ -78,6 +84,8 @@ button:hover {
     border-radius: 5px;
     color: white; /* Make the text white */
     font-weight: bold; /* Make the text bold */
+    background-size: cover;
+    background-position: center;
 }
 
 #expenses div::before {
@@ -91,6 +99,11 @@ button:hover {
     opacity: 0.6; /* Make the image semi-transparent */
     border-radius: inherit;
     z-index: -1;
+}
+
+#expenses div p {
+    position: relative;
+    z-index: 1;
 }
 
 #expenses div p {
