@@ -115,6 +115,45 @@ function displayBarGraph(selectedCountry) {
     Plotly.newPlot(barGraphDiv, data, layout);
 }
 
+// edit updated data dynamically
+
+let data = {
+    "retirementCosts": {
+        // ... your countries and costs ...
+    },
+    "expenses": {
+        // ... your expenses data ...
+    }
+};
+
+function updateRetirementCosts() {
+    const previousYear = new Date().getFullYear() - 1;
+    const countries = Object.keys(data.retirementCosts);
+
+    // Use Promise.all to wait for all API calls to complete
+    Promise.all(countries.map(country => {
+        const countryCode = getCountryCode(country); // You'll need a function to map country names to their codes
+        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
+
+        return fetch(apiUrl)
+            .then(response => response.json())
+            .then(apiData => {
+                const gniPerCapita = apiData[1][0].value;
+                // Update the retirementCosts for the country
+                data.retirementCosts[country] = gniPerCapita;
+            })
+            .catch(error => {
+                console.error(`Error fetching data for ${country}:`, error);
+            });
+    })).then(() => {
+        // All API calls are complete, and the data object is updated
+        // You can now save the updated data to a file or database
+        saveUpdatedData(data); // You'll need a function to handle saving the data
+    });
+}
+
+// save data to JSON
+
 const fs = require('fs');
 
 function saveUpdatedData(updatedData) {
