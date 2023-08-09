@@ -114,3 +114,17 @@ function displayBarGraph(selectedCountry) {
 
     Plotly.newPlot(barGraphDiv, data, layout);
 }
+
+const fs = require('fs');
+
+function saveUpdatedData(updatedData) {
+    const jsonData = JSON.stringify(updatedData, null, 2); // Convert the data to a formatted JSON string
+
+    fs.writeFile('path_to_your_directory/countryData.json', jsonData, (err) => {
+        if (err) {
+            console.error('Error writing to countryData.json:', err);
+        } else {
+            console.log('countryData.json has been updated!');
+        }
+    });
+}
