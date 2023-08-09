@@ -25,6 +25,7 @@ function calculateYears() {
             return;
         }
 
+        const previousYear = new Date().getFullYear() - 1;
         const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
         fetch(apiUrl)
             .then(response => response.json())
@@ -70,17 +71,20 @@ function updateRetirementCosts() {
     // ... (This part remains unchanged) ...
 }
 
-const fs = require('fs');
-
 function saveUpdatedData(updatedData) {
-    const jsonData = JSON.stringify(updatedData, null, 2); // Convert the data to a formatted JSON string
-
-    fs.writeFile('/countryData.json', jsonData, (err) => {
-        if (err) {
-            console.error('Error writing to countryData.json:', err);
-        } else {
-            console.log('countryData.json has been updated!');
-        }
+    fetch('/.netlify/functions/saveData', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+    })
+    .catch(error => {
+        console.error('Error saving the data:', error);
     });
 }
 
