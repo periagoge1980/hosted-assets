@@ -7,11 +7,13 @@ body {
     align-items: center;
     height: 100vh;
 }
+
 #logo {
     width: 300px; /* Adjust as needed */
     display: block;
     margin: 0 auto; /* This will center the logo if the parent div doesn't have any other alignment styles */
 }
+
 #container {
     background-color: #ffffff;
     padding: 20px;
@@ -82,6 +84,7 @@ button:hover {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    margin-bottom: 20px;  /* Add some space after the expenses section */
 }
 
 #expenses div {
@@ -116,10 +119,19 @@ button:hover {
     position: relative;
     z-index: 1;
 }
+
+.custom-divider {
+    width: 80%;  /* Adjust as needed */
+    margin: 20px auto;  /* 20px top and bottom margin, auto left and right for centering */
+    border: 0;  /* Remove default border */
+    height: 1px;  /* Set height of the line */
+    background-color: #ddd;  /* Color of the line */
+}
+
 #barGraph {
     width: 100%; 
     max-width: 600px; 
     height: 400px;
-    margin: 20px auto;
+    margin: 20px auto;  /* Adjusted margin for spacing */
     display: block;
 }
