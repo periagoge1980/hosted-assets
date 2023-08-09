@@ -1,4 +1,5 @@
-  let retirementCosts = {};
+let myChart = null;
+let retirementCosts = {};
     let expenses = {};
 
     fetch('countryData.json')
@@ -82,6 +83,7 @@
         displayBarGraph(country);
     }
 
+      
 function displayExpenses(country) {
     const expenseDiv = document.getElementById("expenses");
     expenseDiv.innerHTML = ""; // Clear previous expenses
@@ -94,8 +96,15 @@ function displayExpenses(country) {
         expenseDiv.appendChild(expenseItem);
     }
 }
-      function displayBarGraph(selectedCountry) {
+  
+      
+function displayBarGraph(selectedCountry) {
     const ctx = document.getElementById('barGraph').getContext('2d');
+
+    // Destroy the previous chart if it exists
+    if (myChart) {
+        myChart.destroy();
+    }
 
     // Data for the bar graph
     const countries = Object.keys(retirementCosts);
@@ -104,7 +113,7 @@ function displayExpenses(country) {
     // Highlight the selected country
     const backgroundColors = countries.map(country => country === selectedCountry ? 'lightblue' : 'grey');
 
-    new Chart(ctx, {
+    myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: countries,
