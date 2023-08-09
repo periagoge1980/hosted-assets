@@ -167,3 +167,20 @@ function saveUpdatedData(updatedData) {
         }
     });
 }
+
+function getCountryCode(country_name) {
+    // Load the JSON data from the file
+    fetch('countryCode.json')
+    .then(response => response.json())
+    .then(data => {
+        // Search for the country name and return its code
+        for (let country of data.countries) {
+            if (country.countryName === country_name) {
+                return country.countryCode;
+            }
+        }
+        // Return null if the country name is not found
+        return null;
+    })
+    .catch(error => console.error('Error fetching the data:', error));
+}
