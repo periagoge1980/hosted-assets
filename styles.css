@@ -8,7 +8,7 @@ body {
     height: 100vh;
 }
 #logo {
-    width: 150px; /* Adjust as needed */
+    width: 200px; /* Adjust as needed */
     display: block;
     margin: 0 auto; /* This will center the logo if the parent div doesn't have any other alignment styles */
 }
