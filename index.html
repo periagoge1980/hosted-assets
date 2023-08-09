@@ -52,6 +52,9 @@
 
         <!-- Display regular expenses -->
         <div id="expenses"></div>
+
+        <!-- Canvas for the bar graph -->
+        <canvas id="barGraph"></canvas>
     </div>
 </div>
 
@@ -78,6 +81,7 @@
         event.preventDefault();
         // Trigger the button element with a click
         calculateYears();
+        
     }
 });
 
@@ -104,6 +108,7 @@
         
         document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br> Your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
         displayExpenses(country);
+        displayBarGraph(country);
     }
 
 function displayExpenses(country) {
@@ -118,8 +123,36 @@ function displayExpenses(country) {
         expenseDiv.appendChild(expenseItem);
     }
 }
+function displayBarGraph(selectedCountry) {
+    const ctx = document.getElementById('barGraph').getContext('2d');
 
+    // Data for the bar graph
+    const countries = Object.keys(retirementCosts);
+    const costs = countries.map(country => retirementCosts[country]);
+
+    // Highlight the selected country
+    const backgroundColors = countries.map(country => country === selectedCountry ? 'lightblue' : 'grey');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: countries,
+            datasets: [{
+                label: 'Average Cost per Year',
+                data: costs,
+                backgroundColor: backgroundColors
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
