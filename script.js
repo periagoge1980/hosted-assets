@@ -62,13 +62,6 @@ function displayExpenses(country) {
 }
 
 function displayBarGraph(selectedCountry) {
-    const ctx = document.getElementById('barGraph').getContext('2d');
-
-    // Destroy the previous chart if it exists
-    if (myChart) {
-        myChart.destroy();
-    }
-
     // Get the countries and their costs
     const countries = Object.keys(retirementCosts);
     const costs = countries.map(country => retirementCosts[country]);
@@ -79,24 +72,27 @@ function displayBarGraph(selectedCountry) {
     const sortedCosts = sortedIndices.map(index => costs[index]);
 
     // Highlight the selected country
-    const backgroundColors = sortedCountries.map(country => country === selectedCountry ? 'lightblue' : 'grey');
+    const markerColors = sortedCountries.map(country => country === selectedCountry ? 'lightblue' : 'grey');
 
-    myChart = new Chart(ctx, {
+    const data = [{
         type: 'bar',
-        data: {
-            labels: sortedCountries,
-            datasets: [{
-                label: 'Average Cost per Year',
-                data: sortedCosts,
-                backgroundColor: backgroundColors
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
+        x: sortedCountries,
+        y: sortedCosts,
+        marker: {
+            color: markerColors
         }
-    });
+    }];
+
+    const layout = {
+        title: 'Average Cost per Year',
+        xaxis: {
+            title: 'Country'
+        },
+        yaxis: {
+            title: 'Cost',
+            zeroline: false
+        }
+    };
+
+    Plotly.newPlot('barGraph', data, layout);
 }
