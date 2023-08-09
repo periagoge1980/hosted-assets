@@ -64,11 +64,88 @@ function displayExpenses(country) {
 }
 
 function displayBarGraph(selectedCountry) {
-    // ... (This part remains unchanged) ...
+    const barGraphDiv = document.getElementById('barGraph');
+
+    // Get the countries and their costs
+    const countries = Object.keys(retirementCosts);
+    const costs = countries.map(country => retirementCosts[country]);
+
+    // Sort countries based on their costs in descending order
+    const sortedIndices = costs.map((cost, index) => index).sort((a, b) => costs[b] - costs[a]);
+    const sortedCountries = sortedIndices.map(index => countries[index]);
+    const sortedCosts = sortedIndices.map(index => costs[index]);
+
+    // Highlight the selected country
+    const colors = sortedCountries.map(country => country === selectedCountry ? '#007BFF' : '#E0E0E0'); // Use a bright color for the selected country and a muted color for others
+
+    const data = [{
+        type: 'bar',
+        x: sortedCountries,
+        y: sortedCosts,
+        marker: {
+            color: colors
+        }
+    }];
+
+    const layout = {
+        title: 'Average Cost per Year',
+        font: {
+            family: 'Arial, sans-serif',
+            size: 14,
+            color: '#333'
+        },
+        paper_bgcolor: '#f9f9f9', // Matches the background color set in CSS
+        plot_bgcolor: '#f9f9f9',
+        xaxis: {
+            title: 'Countries',
+            tickangle: -45, // Angle the country names for better readability
+            gridcolor: '#e1e1e1' // Light gray grid lines
+        },
+        yaxis: {
+            title: 'Cost in USD',
+            gridcolor: '#e1e1e1'
+        },
+        margin: {
+            l: 60,
+            r: 10,
+            b: 100,
+            t: 40,
+            pad: 4
+        }
+    };
+
+    Plotly.newPlot(barGraphDiv, data, layout);
 }
 
 function updateRetirementCosts() {
-    // ... (This part remains unchanged) ...
+    const previousYear = new Date().getFullYear() - 1;
+    const countries = Object.keys(retirementCosts);
+
+    // Use Promise.all to wait for all API calls to complete
+    Promise.all(countries.map(country => {
+        return getCountryCode(country).then(countryCode => {
+            if (!countryCode) {
+                console.error(`Error retrieving country code for ${country}`);
+                return;
+            }
+
+            const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
+            return fetch(apiUrl)
+                .then(response => response.json())
+                .then(apiData => {
+                    const gniPerCapita = apiData[1][0].value;
+                    // Update the retirementCosts for the country
+                    retirementCosts[country] = gniPerCapita;
+                })
+                .catch(error => {
+                    console.error(`Error fetching data for ${country}:`, error);
+                });
+        });
+    })).then(() => {
+        // All API calls are complete, and the retirementCosts object is updated
+        // You can now save the updated data to a file or database
+        saveUpdatedData({ retirementCosts, expenses });
+    });
 }
 
 function saveUpdatedData(updatedData) {
@@ -81,10 +158,10 @@ function saveUpdatedData(updatedData) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data.message);
+        console.log('Data saved:', data);
     })
     .catch(error => {
-        console.error('Error saving the data:', error);
+        console.error('Error saving data:', error);
     });
 }
 
