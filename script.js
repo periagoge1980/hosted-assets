@@ -62,6 +62,8 @@ function displayExpenses(country) {
 }
 
 function displayBarGraph(selectedCountry) {
+    const barGraphDiv = document.getElementById('barGraph');
+
     // Get the countries and their costs
     const countries = Object.keys(retirementCosts);
     const costs = countries.map(country => retirementCosts[country]);
@@ -72,27 +74,43 @@ function displayBarGraph(selectedCountry) {
     const sortedCosts = sortedIndices.map(index => costs[index]);
 
     // Highlight the selected country
-    const markerColors = sortedCountries.map(country => country === selectedCountry ? 'lightblue' : 'grey');
+    const colors = sortedCountries.map(country => country === selectedCountry ? '#007BFF' : '#E0E0E0'); // Use a bright color for the selected country and a muted color for others
 
     const data = [{
         type: 'bar',
         x: sortedCountries,
         y: sortedCosts,
         marker: {
-            color: markerColors
+            color: colors
         }
     }];
 
     const layout = {
         title: 'Average Cost per Year',
+        font: {
+            family: 'Arial, sans-serif',
+            size: 14,
+            color: '#333'
+        },
+        paper_bgcolor: '#f9f9f9', // Matches the background color set in CSS
+        plot_bgcolor: '#f9f9f9',
         xaxis: {
-            title: 'Country'
+            title: 'Countries',
+            tickangle: -45, // Angle the country names for better readability
+            gridcolor: '#e1e1e1' // Light gray grid lines
         },
         yaxis: {
-            title: 'Cost',
-            zeroline: false
+            title: 'Cost in USD',
+            gridcolor: '#e1e1e1'
+        },
+        margin: {
+            l: 60,
+            r: 10,
+            b: 100,
+            t: 40,
+            pad: 4
         }
     };
 
-    Plotly.newPlot('barGraph', data, layout);
+    Plotly.newPlot(barGraphDiv, data, layout);
 }
