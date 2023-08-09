@@ -7,7 +7,11 @@ body {
     align-items: center;
     height: 100vh;
 }
-
+#logo {
+    width: 200px; /* Adjust as needed */
+    display: block;
+    margin: 0 auto; /* This will center the logo if the parent div doesn't have any other alignment styles */
+}
 #container {
     background-color: #ffffff;
     padding: 20px;
