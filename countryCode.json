@@ -1,1 +1,26 @@
-
+{
+    "countries": [
+        {"countryName": "Canada", "countryCode": "CAN"},
+        {"countryName": "USA", "countryCode": "USA"},
+        {"countryName": "Panama", "countryCode": "PAN"},
+        {"countryName": "Costa Rica", "countryCode": "CRI"},
+        {"countryName": "Colombia", "countryCode": "COL"},
+        {"countryName": "Thailand", "countryCode": "THA"},
+        {"countryName": "Ecuador", "countryCode": "ECU"},
+        {"countryName": "Mexico", "countryCode": "MEX"},
+        {"countryName": "Malaysia", "countryCode": "MYS"},
+        {"countryName": "Portugal", "countryCode": "PRT"},
+        {"countryName": "Spain", "countryCode": "ESP"},
+        {"countryName": "Vietnam", "countryCode": "VNM"},
+        {"countryName": "Belize", "countryCode": "BLZ"},
+        {"countryName": "Nicaragua", "countryCode": "NIC"},
+        {"countryName": "Dominican Republic", "countryCode": "DOM"},
+        {"countryName": "Bolivia", "countryCode": "BOL"},
+        {"countryName": "Georgia", "countryCode": "GEO"},
+        {"countryName": "Philippines", "countryCode": "PHL"},
+        {"countryName": "Bali (Indonesia)", "countryCode": "IDN"},
+        {"countryName": "Guatemala", "countryCode": "GTM"},
+        {"countryName": "Peru", "countryCode": "PER"},
+        {"countryName": "Uruguay", "countryCode": "URY"}
+    ]
+}
