@@ -69,20 +69,25 @@ function displayBarGraph(selectedCountry) {
         myChart.destroy();
     }
 
-    // Data for the bar graph
+    // Get the countries and their costs
     const countries = Object.keys(retirementCosts);
     const costs = countries.map(country => retirementCosts[country]);
 
+    // Sort countries based on their costs in descending order
+    const sortedIndices = costs.map((cost, index) => index).sort((a, b) => costs[b] - costs[a]);
+    const sortedCountries = sortedIndices.map(index => countries[index]);
+    const sortedCosts = sortedIndices.map(index => costs[index]);
+
     // Highlight the selected country
-    const backgroundColors = countries.map(country => country === selectedCountry ? 'lightblue' : 'grey');
+    const backgroundColors = sortedCountries.map(country => country === selectedCountry ? 'lightblue' : 'grey');
 
     myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: countries,
+            labels: sortedCountries,
             datasets: [{
                 label: 'Average Cost per Year',
-                data: costs,
+                data: sortedCosts,
                 backgroundColor: backgroundColors
             }]
         },
@@ -95,3 +100,4 @@ function displayBarGraph(selectedCountry) {
         }
     });
 }
+
