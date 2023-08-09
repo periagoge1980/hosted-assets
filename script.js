@@ -132,3 +132,4 @@ function displayBarGraph(selectedCountry) {
         }
     });
 }
+}
