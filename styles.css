@@ -116,3 +116,10 @@ button:hover {
     position: relative;
     z-index: 1;
 }
+#barGraph {
+    width: 100%; 
+    max-width: 600px; 
+    height: 400px;
+    margin: 20px auto;
+    display: block;
+}
