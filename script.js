@@ -7,45 +7,66 @@ fetch('countryData.json')
     .then(data => {
         retirementCosts = data.retirementCosts;
         expenses = data.expenses;
+        console.log("Retirement Costs:", retirementCosts); // Troubleshooting log
+
+        // Enable the calculate button after fetching the data
+        document.getElementById("calculateButton").disabled = false;
     })
-    .catch(error => console.error('Error fetching the data:', error));
+    .catch(error => {
+        console.error('Error fetching the data:', error);
+    });
+
+window.onload = function() {
+    updateRetirementCosts();
+};
 
 function calculateYears() {
     const country = document.getElementById("country").value;
     const fund = parseFloat(document.getElementById("retirementFund").value);
-    
-    document.getElementById("retirementFund").addEventListener("keyup", function(event) {
-        // Number 13 is the "Enter" key on the keyboard
-        if (event.keyCode === 13) {
-            // Cancel the default action, if needed
-            event.preventDefault();
-            // Trigger the button element with a click
-            calculateYears();
-        }
-    });
-
+    const usaCost = retirementCosts["USA"];
+    if (!usaCost || usaCost === 0) {
+        document.getElementById("result").innerText = "Error: Retirement cost data for the USA is missing or zero.";
+        return;
+    }
     if (isNaN(fund)) {
         document.getElementById("result").innerText = "Please enter a valid retirement fund amount.";
         return;
     }
+    
+    getCountryCode(country).then(countryCode => {
+        if (!countryCode) {
+            document.getElementById("result").innerText = "Error retrieving country code for selected country.";
+            return;
+        }
 
-    if (!retirementCosts[country]) {
-        document.getElementById("result").innerText = "Error retrieving retirement costs for selected country.";
-        return;
-    }
+        const previousYear = new Date().getFullYear() - 1;
+        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(apiData => {
+                const gniPerCapita = apiData[1][0].value;
+                console.log("GNI per Capita for", country, ":", gniPerCapita); // Troubleshooting log
 
-    const totalYearsInSelectedCountry = fund / retirementCosts[country];
-    const totalYearsInUSA = fund / retirementCosts["USA"];
+                const usaCost = retirementCosts["USA"] || 0; // Default to 0 if undefined
+                console.log("USA Retirement Cost:", usaCost); // Troubleshooting log
 
-    const yearsInSelectedCountry = Math.floor(totalYearsInSelectedCountry);
-    const monthsInSelectedCountry = Math.round((totalYearsInSelectedCountry - yearsInSelectedCountry) * 12);
+                const totalYearsInSelectedCountry = fund / gniPerCapita;
 
-    const yearsInUSA = Math.floor(totalYearsInUSA);
-    const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
+                const totalYearsInUSA = fund / usaCost;
+                const yearsInUSA = Math.floor(totalYearsInUSA);
+                const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
+                
+                const yearsInSelectedCountry = Math.floor(totalYearsInSelectedCountry);
+                const monthsInSelectedCountry = Math.round((totalYearsInSelectedCountry - yearsInSelectedCountry) * 12);
 
-    document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming a middle-class lifestyle, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
-    displayExpenses(country);
-    displayBarGraph(country);
+                document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming a middle-class lifestyle, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
+                displayExpenses(country);
+                displayBarGraph(country);
+            })
+            .catch(error => {
+                console.error(`Error fetching data for ${country}:`, error);
+            });
+    });
 }
 
 function displayExpenses(country) {
@@ -113,4 +134,70 @@ function displayBarGraph(selectedCountry) {
     };
 
     Plotly.newPlot(barGraphDiv, data, layout);
+}
+
+function updateRetirementCosts() {
+    const previousYear = new Date().getFullYear() - 1;
+    const countries = Object.keys(expenses); // Assuming all countries in expenses should have retirement costs
+
+    // Use Promise.all to wait for all API calls to complete
+    Promise.all(countries.map(country => {
+        return getCountryCode(country).then(countryCode => {
+            if (!countryCode) {
+                console.error(`Error retrieving country code for ${country}`);
+                return;
+            }
+
+            const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
+            return fetch(apiUrl)
+                .then(response => response.json())
+                .then(apiData => {
+                    const gniPerCapita = apiData[1][0].value;
+                    // Update the retirementCosts for the country
+                    retirementCosts[country] = gniPerCapita;
+                })
+                .catch(error => {
+                    console.error(`Error fetching data for ${country}:`, error);
+                });
+        });
+    })).then(() => {
+        // All API calls are complete, and the retirementCosts object is updated
+        // You can now save the updated data to a file or database
+        saveUpdatedData({ retirementCosts, expenses });
+    });
+}
+
+
+function saveUpdatedData(updatedData) {
+    fetch('/.netlify/functions/saveData', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Data saved:', data);
+    })
+    .catch(error => {
+        console.error('Error saving data:', error);
+    });
+}
+
+function getCountryCode(country_name) {
+    return fetch('countryCode.json')
+        .then(response => response.json())
+        .then(data => {
+            for (let country of data.countries) {
+                if (country.countryName === country_name) {
+                    return country.countryCode;
+                }
+            }
+            return null;
+        })
+        .catch(error => {
+            console.error('Error fetching the data:', error);
+            return null;
+        });
 }
