@@ -8,8 +8,13 @@ fetch('countryData.json')
         retirementCosts = data.retirementCosts;
         expenses = data.expenses;
         console.log("Retirement Costs:", retirementCosts); // Troubleshooting log
+
+        // Enable the calculate button after fetching the data
+        document.getElementById("calculateButton").disabled = false;
     })
-    .catch(error => console.error('Error fetching the data:', error));
+    .catch(error => {
+        console.error('Error fetching the data:', error);
+    });
 
 function calculateYears() {
     const country = document.getElementById("country").value;
