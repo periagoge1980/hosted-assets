@@ -3,8 +3,8 @@ import { createClient } from 'https://cdn.skypack.dev/@supabase/supabase-js';
 
 // Initialize Supabase client
 // NOTE: Use environment variables or another secure method to store and access these values.
-const SUPABASE_URL = process.env.REACT_APP_SUPABASE_URL;
-const SUPABASE_KEY = process.env.REACT_APP_SUPABASE_KEY;
+const SUPABASE_URL = '%%SUPABASE_URL%%';
+const SUPABASE_KEY = '%%SUPABASE_KEY%%';
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let myChart = null;
