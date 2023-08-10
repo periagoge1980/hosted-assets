@@ -14,7 +14,6 @@ body {
 }
 #logo {
     width: 300px; /* Adjust as needed */
-    justify-content: left;
     display: block;
     margin: 0 auto; /* This will center the logo if the parent div doesn't have any other alignment styles */
 }
