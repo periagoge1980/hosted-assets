@@ -1,5 +1,5 @@
 // Importing Supabase client
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from 'https://cdn.skypack.dev/@supabase/supabase-js';
 
 // Initialize Supabase client
 // NOTE: Use environment variables or another secure method to store and access these values.
