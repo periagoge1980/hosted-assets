@@ -1,5 +1,3 @@
-<!--Beginning-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +7,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div id="main-container">
 <div id="container">
     <div id="header">
         <a href="https://sunnyyears.netlify.app/index"><img src="Sunny Years.png" alt="Sunny Years Logo" id="logo"></a>
@@ -20,10 +17,9 @@
         <!-- Dropdown for country selection -->
         <label for="country">Select your dream retirement destination: </label>
 <select id="country">
-    <option value="Indonesia">Indonesia</option>
+    <option value="Bali (Indonesia)">Bali (Indonesia)</option>
     <option value="Belize">Belize</option>
     <option value="Bolivia">Bolivia</option>
-    <option value="Canada">Canada</option>
     <option value="Colombia">Colombia</option>
     <option value="Costa Rica">Costa Rica</option>
     <option value="Dominican Republic">Dominican Republic</option>
@@ -49,7 +45,7 @@
         <input type="number" id="retirementFund">
 
         <!-- Button to calculate -->
-        <button onclick="calculateYears()" id="calculateButton" disabled>Calculate</button>
+        <button onclick="calculateYears()">Calculate</button>
 
         <!-- Display results -->
         <p id="result"></p>
@@ -65,8 +61,7 @@
 
     </div>
 </div>
-</div>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script type="module" src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
