@@ -1,91 +1,51 @@
-// Importing my Supabase client
-import { createClient } from 'https://cdn.skypack.dev/@supabase/supabase-js';
-
-// Initialize Supabase client
-
-
-const supabaseUrl = 'https://jhxlfoyutmlrhwymsjxv.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpoeGxmb3l1dG1scmh3eW1zanh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE2ODM1NTYsImV4cCI6MjAwNzI1OTU1Nn0.SEX7oqRX8Xov3AWuYS2Md5cED9qW6SGdQBewE2YUo58';
-const supabase = createClient(supabaseUrl, supabaseKey);
-//const SUPABASE_URL = 'https://jhxlfoyutmlrhwymsjxv.supabase.co';
-//const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpoeGxmb3l1dG1scmh3eW1zanh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE2ODM1NTYsImV4cCI6MjAwNzI1OTU1Nn0.SEX7oqRX8Xov3AWuYS2Md5cED9qW6SGdQBewE2YUo58';
-// const SUPABASE_URL = '%%SUPABASE_URL%%';
-// const SUPABASE_KEY = '%%SUPABASE_KEY%%';
-//const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
 let myChart = null;
 let retirementCosts = {};
 let expenses = {};
 
-async function fetchRetirementCosts() {
-    const { data, error } = await supabase
-        .from('retirementCosts')
-        .select('*');
-    if (error) console.error("Error fetching data:", error);
-    return data;
-}
-
-// Call the function to fetch retirement costs during initialization
-fetchRetirementCosts().then(data => {
-    retirementCosts = data;
-});
-
+fetch('countryData.json')
+    .then(response => response.json())
+    .then(data => {
+        retirementCosts = data.retirementCosts;
+        expenses = data.expenses;
+    })
+    .catch(error => console.error('Error fetching the data:', error));
 
 function calculateYears() {
     const country = document.getElementById("country").value;
     const fund = parseFloat(document.getElementById("retirementFund").value);
-    const usaCost = retirementCosts["USA"];
-    if (!usaCost || usaCost === 0) {
-        document.getElementById("result").innerText = "Error: Retirement cost data for the USA is missing or zero.";
-        return;
-    }
+    
+    document.getElementById("retirementFund").addEventListener("keyup", function(event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            calculateYears();
+        }
+    });
+
     if (isNaN(fund)) {
         document.getElementById("result").innerText = "Please enter a valid retirement fund amount.";
         return;
     }
-    
-    getCountryCode(country).then(countryCode => {
-        if (!countryCode) {
-            document.getElementById("result").innerText = "Error retrieving country code for selected country.";
-            return;
-        }
 
-        const previousYear = new Date().getFullYear() - 1;
-        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(apiData => {
-                const gniPerCapita = apiData[1][0].value;
-                console.log("GNI per Capita for", country, ":", gniPerCapita); // Troubleshooting log
+    if (!retirementCosts[country]) {
+        document.getElementById("result").innerText = "Error retrieving retirement costs for selected country.";
+        return;
+    }
 
-                const usaCost = retirementCosts["USA"] || 0; // Default to 0 if undefined
-                console.log("USA Retirement Cost:", usaCost); // Troubleshooting log
+    const totalYearsInSelectedCountry = fund / retirementCosts[country];
+    const totalYearsInUSA = fund / retirementCosts["USA"];
 
-                const totalYearsInSelectedCountry = fund / gniPerCapita;
+    const yearsInSelectedCountry = Math.floor(totalYearsInSelectedCountry);
+    const monthsInSelectedCountry = Math.round((totalYearsInSelectedCountry - yearsInSelectedCountry) * 12);
 
-                const totalYearsInUSA = fund / usaCost;
-                const yearsInUSA = Math.floor(totalYearsInUSA);
-                const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
-                
-                const yearsInSelectedCountry = Math.floor(totalYearsInSelectedCountry);
-                const monthsInSelectedCountry = Math.round((totalYearsInSelectedCountry - yearsInSelectedCountry) * 12);
+    const yearsInUSA = Math.floor(totalYearsInUSA);
+    const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
 
-                document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming a middle-class lifestyle, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
-                displayExpenses(country);
-                displayBarGraph(country);
-            })
-            .catch(error => {
-                console.error(`Error fetching data for ${country}:`, error);
-            });
-    });
-}
-
-function displayError(message) {
-    // Display the error message to the user
-    const errorDiv = document.createElement("div");
-    errorDiv.innerText = message;
-    errorDiv.style.color = "red";
-    document.body.appendChild(errorDiv);
+    document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming a middle-class lifestyle, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInUSA} years and ${monthsInUSA} months in the USA.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
+    displayExpenses(country);
+    displayBarGraph(country);
 }
 
 function displayExpenses(country) {
@@ -94,26 +54,12 @@ function displayExpenses(country) {
 
     for (let item in expenses[country]) {
         const expenseItem = document.createElement("div");
-        expenseItem.classList.add("expense-item"); // Add the class for styling
-
-        // Create an image element
-        const expenseImage = document.createElement("img");
-        expenseImage.src = `${item.replace(/ /g, '').toLowerCase()}.jpg`;
-        expenseImage.alt = item;
-
-        // Create a paragraph element for the text
-        const expenseText = document.createElement("p");
-        expenseText.innerText = `${item}: ${expenses[country][item]}`;
-
-        // Append the image and text to the expenseItem div
-        expenseItem.appendChild(expenseImage);
-        expenseItem.appendChild(expenseText);
-
-        // Append the expenseItem to the main expenses div
+        expenseItem.style.backgroundImage = `url(${item.replace(/ /g, '').toLowerCase()}.jpg)`;
+        expenseItem.style.backgroundSize = 'cover';
+        expenseItem.innerHTML = `<p>${item}: ${expenses[country][item]}</p>`;
         expenseDiv.appendChild(expenseItem);
     }
 }
-
 
 function displayBarGraph(selectedCountry) {
     const barGraphDiv = document.getElementById('barGraph');
@@ -168,30 +114,3 @@ function displayBarGraph(selectedCountry) {
 
     Plotly.newPlot(barGraphDiv, data, layout);
 }
-
-async function updateRetirementCosts(data) {
-    const { error } = await supabase
-        .from('retirementCosts')
-        .update(data);
-    if (error) console.error("Error updating data:", error);
-}
-
-
-function getCountryCode(country_name) {
-    return fetch('countryCode.json')
-        .then(response => response.json())
-        .then(data => {
-            for (let country of data.countries) {
-                if (country.countryName === country_name) {
-                    return country.countryCode;
-                }
-            }
-            return null;
-        })
-        .catch(error => {
-            console.error('Error fetching the data:', error);
-            return null;
-        });
-}
-
-
