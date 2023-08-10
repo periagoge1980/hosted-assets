@@ -1,28 +1,5 @@
 {
-    "retirementCosts": {
-        "USA": 60000,
-        "Panama": 25000,
-        "Canada": 52960,
-        "Costa Rica": 27500,
-        "Colombia": 17000,
-        "Thailand": 15000,
-        "Ecuador": 16000,
-        "Mexico": 18000,
-        "Malaysia": 15000,
-        "Portugal": 22500,
-        "Spain": 27500,
-        "Vietnam": 12500,
-        "Belize": 17500,
-        "Nicaragua": 12500,
-        "Dominican Republic": 17500,
-        "Bolivia": 12500,
-        "Georgia": 12500,
-        "Philippines": 12500,
-        "Bali (Indonesia)": 17500,
-        "Guatemala": 12500,
-        "Peru": 12500,
-        "Uruguay": 22500
-    },
+    "retirementCosts": {},
     "expenses": {
         "USA": {
             "One coffee": "$3 - $5",
