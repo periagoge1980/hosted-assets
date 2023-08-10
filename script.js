@@ -1,3 +1,12 @@
+// Importing Supabase client
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+// NOTE: Use environment variables or another secure method to store and access these values.
+const SUPABASE_URL = 'https://jhxlfoyutmlrhwymsjxv.supabase.co'; // Replace with your Supabase URL
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpoeGxmb3l1dG1scmh3eW1zanh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE2ODM1NTYsImV4cCI6MjAwNzI1OTU1Nn0.SEX7oqRX8Xov3AWuYS2Md5cED9qW6SGdQBewE2YUo58'; // Replace with your Supabase Key
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
 let myChart = null;
 let retirementCosts = {};
 let expenses = {};
@@ -6,9 +15,18 @@ async function fetchRetirementCosts() {
     const { data, error } = await supabase
         .from('retirementCosts')
         .select('*');
-    if (error) console.error("Error fetching data:", error);
+    if (error) {
+        console.error("Error fetching data:", error);
+        displayError("Failed to fetch retirement costs.");
+    }
     return data;
 }
+
+// Call the function to fetch retirement costs during initialization
+fetchRetirementCosts().then(data => {
+    retirementCosts = data;
+});
+
 
 function calculateYears() {
     const country = document.getElementById("country").value;
@@ -59,6 +77,13 @@ function calculateYears() {
     });
 }
 
+function displayError(message) {
+    // Display the error message to the user
+    const errorDiv = document.createElement("div");
+    errorDiv.innerText = message;
+    errorDiv.style.color = "red";
+    document.body.appendChild(errorDiv);
+}
 
 function displayExpenses(country) {
     const expenseDiv = document.getElementById("expenses");
@@ -166,8 +191,4 @@ function getCountryCode(country_name) {
         });
 }
 
-import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://jhxlfoyutmlrhwymsjxv.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpoeGxmb3l1dG1scmh3eW1zanh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE2ODM1NTYsImV4cCI6MjAwNzI1OTU1Nn0.SEX7oqRX8Xov3AWuYS2Md5cED9qW6SGdQBewE2YUo58';
-const supabase = createClient(supabaseUrl, supabaseKey);
