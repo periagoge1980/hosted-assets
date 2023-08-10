@@ -69,18 +69,33 @@ function calculateYears() {
     });
 }
 
+
 function displayExpenses(country) {
     const expenseDiv = document.getElementById("expenses");
     expenseDiv.innerHTML = ""; // Clear previous expenses
 
     for (let item in expenses[country]) {
         const expenseItem = document.createElement("div");
-        expenseItem.style.backgroundImage = `url(${item.replace(/ /g, '').toLowerCase()}.jpg)`;
-        expenseItem.style.backgroundSize = 'cover';
-        expenseItem.innerHTML = `<p>${item}: ${expenses[country][item]}</p>`;
+        expenseItem.classList.add("expense-item"); // Add the class for styling
+
+        // Create an image element
+        const expenseImage = document.createElement("img");
+        expenseImage.src = `${item.replace(/ /g, '').toLowerCase()}.jpg`;
+        expenseImage.alt = item;
+
+        // Create a paragraph element for the text
+        const expenseText = document.createElement("p");
+        expenseText.innerText = `${item}: ${expenses[country][item]}`;
+
+        // Append the image and text to the expenseItem div
+        expenseItem.appendChild(expenseImage);
+        expenseItem.appendChild(expenseText);
+
+        // Append the expenseItem to the main expenses div
         expenseDiv.appendChild(expenseItem);
     }
 }
+
 
 function displayBarGraph(selectedCountry) {
     const barGraphDiv = document.getElementById('barGraph');
