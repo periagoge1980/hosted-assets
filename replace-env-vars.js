@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 // Read the file
-const filePath = './path_to_your_script/script.js'; // Replace with the path to your JS file
+const filePath = './script.js'; // Replace with the path to your JS file
 let fileContent = fs.readFileSync(filePath, 'utf8');
 
 // Replace placeholders with environment variables
