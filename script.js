@@ -2,23 +2,13 @@ let myChart = null;
 let retirementCosts = {};
 let expenses = {};
 
-fetch('countryData.json')
-    .then(response => response.json())
-    .then(data => {
-        retirementCosts = data.retirementCosts;
-        expenses = data.expenses;
-        console.log("Retirement Costs:", retirementCosts); // Troubleshooting log
-
-        // Enable the calculate button after fetching the data
-        document.getElementById("calculateButton").disabled = false;
-    })
-    .catch(error => {
-        console.error('Error fetching the data:', error);
-    });
-
-window.onload = function() {
-    updateRetirementCosts();
-};
+async function fetchRetirementCosts() {
+    const { data, error } = await supabase
+        .from('retirementCosts')
+        .select('*');
+    if (error) console.error("Error fetching data:", error);
+    return data;
+}
 
 function calculateYears() {
     const country = document.getElementById("country").value;
@@ -151,54 +141,13 @@ function displayBarGraph(selectedCountry) {
     Plotly.newPlot(barGraphDiv, data, layout);
 }
 
-function updateRetirementCosts() {
-    const previousYear = new Date().getFullYear() - 1;
-    const countries = Object.keys(expenses); // Assuming all countries in expenses should have retirement costs
-
-    // Use Promise.all to wait for all API calls to complete
-    Promise.all(countries.map(country => {
-        return getCountryCode(country).then(countryCode => {
-            if (!countryCode) {
-                console.error(`Error retrieving country code for ${country}`);
-                return;
-            }
-
-            const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
-            return fetch(apiUrl)
-                .then(response => response.json())
-                .then(apiData => {
-                    const gniPerCapita = apiData[1][0].value;
-                    // Update the retirementCosts for the country
-                    retirementCosts[country] = gniPerCapita;
-                })
-                .catch(error => {
-                    console.error(`Error fetching data for ${country}:`, error);
-                });
-        });
-    })).then(() => {
-        // All API calls are complete, and the retirementCosts object is updated
-        // You can now save the updated data to a file or database
-        saveUpdatedData({ retirementCosts, expenses });
-    });
+async function updateRetirementCosts(data) {
+    const { error } = await supabase
+        .from('retirementCosts')
+        .update(data);
+    if (error) console.error("Error updating data:", error);
 }
 
-
-function saveUpdatedData(updatedData) {
-    fetch('/.netlify/functions/saveData', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Data saved:', data);
-    })
-    .catch(error => {
-        console.error('Error saving data:', error);
-    });
-}
 
 function getCountryCode(country_name) {
     return fetch('countryCode.json')
