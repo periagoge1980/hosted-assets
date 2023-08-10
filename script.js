@@ -14,12 +14,18 @@ fetch('countryData.json')
 function calculateYears() {
     const country = document.getElementById("country").value;
     const fund = parseFloat(document.getElementById("retirementFund").value);
-
+    const usaCost = retirementCosts["USA"];
+    if (!usaCost || usaCost === 0) {
+        document.getElementById("result").innerText = "Error: Retirement cost data for the USA is missing or zero.";
+        return;
+    }
     if (isNaN(fund)) {
         document.getElementById("result").innerText = "Please enter a valid retirement fund amount.";
         return;
     }
-
+    const yearsInUSA = Math.floor(totalYearsInUSA);
+    const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
+    
     getCountryCode(country).then(countryCode => {
         if (!countryCode) {
             document.getElementById("result").innerText = "Error retrieving country code for selected country.";
