@@ -216,3 +216,9 @@ function getCountryCode(country_name) {
             return null;
         });
 }
+
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = 'https://jhxlfoyutmlrhwymsjxv.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpoeGxmb3l1dG1scmh3eW1zanh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE2ODM1NTYsImV4cCI6MjAwNzI1OTU1Nn0.SEX7oqRX8Xov3AWuYS2Md5cED9qW6SGdQBewE2YUo58';
+const supabase = createClient(supabaseUrl, supabaseKey);
