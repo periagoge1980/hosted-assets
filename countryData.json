@@ -193,12 +193,12 @@
             "Doctor check-up": "$30 - $60"
         },
         "Canada": {
-            "One coffee": "$2 - $4",
-            "One beer": "$5 - $8",
-            "One restaurant meal": "$10 - $25",
-            "Rent - monthly": "$800 - $2,000",
-            "Public transport - monthly": "$70 - $150",
-            "Doctor check-up": "$0 - $120"
+    "One coffee": "$2 - $4",
+    "One beer": "$5 - $8",
+    "One restaurant meal": "$10 - $25",
+    "Rent - monthly": "$800 - $2,000",
+    "Public transport - monthly": "$70 - $150",
+    "Doctor check-up": "$0 - $120"
 },
 }
 }
