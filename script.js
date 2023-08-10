@@ -16,6 +16,10 @@ fetch('countryData.json')
         console.error('Error fetching the data:', error);
     });
 
+window.onload = function() {
+    updateRetirementCosts();
+};
+
 function calculateYears() {
     const country = document.getElementById("country").value;
     const fund = parseFloat(document.getElementById("retirementFund").value);
@@ -134,7 +138,7 @@ function displayBarGraph(selectedCountry) {
 
 function updateRetirementCosts() {
     const previousYear = new Date().getFullYear() - 1;
-    const countries = Object.keys(retirementCosts);
+    const countries = Object.keys(expenses); // Assuming all countries in expenses should have retirement costs
 
     // Use Promise.all to wait for all API calls to complete
     Promise.all(countries.map(country => {
@@ -162,6 +166,7 @@ function updateRetirementCosts() {
         saveUpdatedData({ retirementCosts, expenses });
     });
 }
+
 
 function saveUpdatedData(updatedData) {
     fetch('/.netlify/functions/saveData', {
