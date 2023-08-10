@@ -23,9 +23,6 @@ function calculateYears() {
         document.getElementById("result").innerText = "Please enter a valid retirement fund amount.";
         return;
     }
-    const totalYearsInUSA = fund / usaCost;
-    const yearsInUSA = Math.floor(totalYearsInUSA);
-    const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
     
     getCountryCode(country).then(countryCode => {
         if (!countryCode) {
@@ -45,8 +42,11 @@ function calculateYears() {
                 console.log("USA Retirement Cost:", usaCost); // Troubleshooting log
 
                 const totalYearsInSelectedCountry = fund / gniPerCapita;
-                const totalYearsInUSA = fund / usaCost;
 
+                const totalYearsInUSA = fund / usaCost;
+                const yearsInUSA = Math.floor(totalYearsInUSA);
+                const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
+                
                 const yearsInSelectedCountry = Math.floor(totalYearsInSelectedCountry);
                 const monthsInSelectedCountry = Math.round((totalYearsInSelectedCountry - yearsInSelectedCountry) * 12);
 
