@@ -1,24 +1,36 @@
-let myChart = null;
+ let myChart = null;
 let retirementCosts = {};
 let expenses = {};
 
-fetch('countryData.json')
-    .then(response => response.json())
-    .then(data => {
-        retirementCosts = data.retirementCosts;
-        expenses = data.expenses;
-        console.log("Retirement Costs:", retirementCosts); // Troubleshooting log
+// Try to fetch data from localStorage first
+const localData = localStorage.getItem('countryData');
+if (localData) {
+    const parsedData = JSON.parse(localData);
+    retirementCosts = parsedData.retirementCosts;
+    expenses = parsedData.expenses;
+    document.getElementById("calculateButton").disabled = false;
+} else {
+    // If not in localStorage, fetch from countryData.json
+    fetch('countryData.json')
+        .then(response => response.json())
+        .then(data => {
+            retirementCosts = data.retirementCosts;
+            expenses = data.expenses;
+            console.log("Retirement Costs:", retirementCosts); // Troubleshooting log
 
-        // Enable the calculate button after fetching the data
-        document.getElementById("calculateButton").disabled = false;
-    })
-    .catch(error => {
-        console.error('Error fetching the data:', error);
-    });
+            // Enable the calculate button after fetching the data
+            document.getElementById("calculateButton").disabled = false;
+        })
+        .catch(error => {
+            console.error('Error fetching the data:', error);
+        });
+}
 
 window.onload = function() {
     updateRetirementCosts();
 };
+
+
 
 function calculateYears() {
     const country = document.getElementById("country").value;
@@ -169,20 +181,12 @@ function updateRetirementCosts() {
 
 
 function saveUpdatedData(updatedData) {
-    fetch('/.netlify/functions/saveData', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Data saved:', data);
-    })
-    .catch(error => {
-        console.error('Error saving data:', error);
-    });
+    try {
+        localStorage.setItem('countryData', JSON.stringify(updatedData));
+        console.log('Data saved to localStorage');
+    } catch (error) {
+        console.error('Error saving data to localStorage:', error);
+    }
 }
 
 function getCountryCode(country_name) {
