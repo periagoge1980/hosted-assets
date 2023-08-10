@@ -2,21 +2,18 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
     padding: 20px;
-    color: #333; /* Dark gray text for better readability */
-}
-
-#main-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* This ensures that the content is centered vertically if it's less than the viewport height */
+    height: 100vh;
+    color: #333; /* Dark gray text for better readability */
 }
-
 #logo {
     width: 300px; /* Adjust as needed */
     display: block;
     margin: 0 auto; /* This will center the logo if the parent div doesn't have any other alignment styles */
 }
+
 
 #container {
     background-color: #ffffff;
@@ -94,18 +91,16 @@ button:hover {
 #expenses div {
     position: relative;
     display: flex;
-    flex-direction: column; /* Stack children vertically */
-    justify-content: flex-end; /* Align children to the bottom */
+    justify-content: center;
+    align-items: center;
     border: 1px solid #e0e0e0;
     padding: 10px;
     border-radius: 5px;
-    color: black;
-    font-weight: bold;
-    background-size: contain; /* This will ensure the image fits within the div */
-    background-repeat: no-repeat; /* This will prevent the image from repeating */
+    color: black; /* Make the text white */
+    font-weight: bold; /* Make the text bold */
+    background-size: cover;
     background-position: center;
-    background-color: transparent;
-    height: 100px; /* Adjust as needed */
+    background-color: transparent; /* Ensure the background is transparent */
 }
 
 #expenses div::before {
@@ -124,9 +119,7 @@ button:hover {
 #expenses div p {
     position: relative;
     z-index: 1;
-    margin-top: 10px; /* Add some space above the text */
 }
-
 
 .custom-divider {
     width: 80%;  /* Adjust as needed */
