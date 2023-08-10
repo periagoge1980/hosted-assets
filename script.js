@@ -21,10 +21,7 @@ async function fetchRetirementCosts() {
     const { data, error } = await supabase
         .from('retirementCosts')
         .select('*');
-    if (error) {
-        console.error("Error fetching data:", error);
-        displayError("Failed to fetch retirement costs.");
-    }
+    if (error) console.error("Error fetching data:", error);
     return data;
 }
 
