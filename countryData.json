@@ -137,14 +137,14 @@
             "Public transport - monthly": "$20 - $30",
             "Doctor check-up": "$20 - $40"
         },
-        "Indonesia": {
-            "One coffee": "$1 - $2",
-            "One beer": "$2 - $3",
-            "One restaurant meal": "$5 - $10",
-            "Rent - monthly": "$300 - $600",
-            "Public transport - monthly": "$20 - $30",
-            "Doctor check-up": "$20 - $40"
-        },
+          "Indonesia": {
+        "One coffee": "$1 - $3",
+        "One beer": "$1.5 - $3",
+        "One restaurant meal": "$3 - $10",
+        "Rent - monthly": "$150 - $700",
+        "Public transport - monthly": "$15 - $40",
+        "Doctor check-up": "$10 - $50"
+    },
         "Guatemala": {
             "One coffee": "$1 - $2",
             "One beer": "$1 - $2",
