@@ -3,8 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase client
 // NOTE: Use environment variables or another secure method to store and access these values.
-const SUPABASE_URL = 'https://jhxlfoyutmlrhwymsjxv.supabase.co'; // Replace with your Supabase URL
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpoeGxmb3l1dG1scmh3eW1zanh2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE2ODM1NTYsImV4cCI6MjAwNzI1OTU1Nn0.SEX7oqRX8Xov3AWuYS2Md5cED9qW6SGdQBewE2YUo58'; // Replace with your Supabase Key
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let myChart = null;
