@@ -2,18 +2,21 @@ body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
     padding: 20px;
+    color: #333; /* Dark gray text for better readability */
+}
+
+#main-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    color: #333; /* Dark gray text for better readability */
+    min-height: 100vh; /* This ensures that the content is centered vertically if it's less than the viewport height */
 }
+
 #logo {
     width: 300px; /* Adjust as needed */
     display: block;
     margin: 0 auto; /* This will center the logo if the parent div doesn't have any other alignment styles */
 }
-
 
 #container {
     background-color: #ffffff;
