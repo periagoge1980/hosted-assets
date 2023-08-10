@@ -7,6 +7,7 @@ fetch('countryData.json')
     .then(data => {
         retirementCosts = data.retirementCosts;
         expenses = data.expenses;
+        console.log("Retirement Costs:", retirementCosts); // Troubleshooting log
     })
     .catch(error => console.error('Error fetching the data:', error));
 
@@ -31,8 +32,13 @@ function calculateYears() {
             .then(response => response.json())
             .then(apiData => {
                 const gniPerCapita = apiData[1][0].value;
+                console.log("GNI per Capita for", country, ":", gniPerCapita); // Troubleshooting log
+
+                const usaCost = retirementCosts["USA"] || 0; // Default to 0 if undefined
+                console.log("USA Retirement Cost:", usaCost); // Troubleshooting log
+
                 const totalYearsInSelectedCountry = fund / gniPerCapita;
-                const totalYearsInUSA = fund / retirementCosts["USA"];
+                const totalYearsInUSA = fund / usaCost;
 
                 const yearsInSelectedCountry = Math.floor(totalYearsInSelectedCountry);
                 const monthsInSelectedCountry = Math.round((totalYearsInSelectedCountry - yearsInSelectedCountry) * 12);
