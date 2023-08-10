@@ -1,4 +1,2 @@
-node replace-env-vars.js && npm run build
-
 [build]
   functions = "netlify/functions"
