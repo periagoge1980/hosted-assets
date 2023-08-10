@@ -101,10 +101,11 @@ button:hover {
     border-radius: 5px;
     color: black;
     font-weight: bold;
-    background-size: cover;
+    background-size: contain; /* This will ensure the image fits within the div */
+    background-repeat: no-repeat; /* This will prevent the image from repeating */
     background-position: center;
     background-color: transparent;
-    height: 150px; /* Adjust as needed */
+    height: 100px; /* Adjust as needed */
 }
 
 #expenses div::before {
@@ -125,6 +126,7 @@ button:hover {
     z-index: 1;
     margin-top: 10px; /* Add some space above the text */
 }
+
 
 .custom-divider {
     width: 80%;  /* Adjust as needed */
