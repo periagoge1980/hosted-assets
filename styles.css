@@ -13,13 +13,10 @@ body {
     align-items: center;
     min-height: 100vh; /* This ensures that the content is centered vertically if it's less than the viewport height */
 }
-
 #logo {
     width: 300px; /* Adjust as needed */
-    position: absolute; /* Position the logo absolutely within its relative parent */
-    top: 10px; /* Adjust as needed to set the distance from the top */
-    left: 50%; /* Center the logo horizontally */
-    transform: translateX(-50%); /* Shift the logo back by half its width to ensure true centering */
+    display: block;
+    margin: 0 auto; /* This will center the logo if the parent div doesn't have any other alignment styles */
 }
 
 
