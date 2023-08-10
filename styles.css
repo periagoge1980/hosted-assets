@@ -4,6 +4,7 @@ body {
     background-color: #f4f4f4;
     padding: 20px;
     color: #333; /* Dark gray text for better readability */
+    position: relative;
 }
 
 #main-container {
