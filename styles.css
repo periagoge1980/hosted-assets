@@ -15,9 +15,12 @@ body {
 
 #logo {
     width: 300px; /* Adjust as needed */
-    display: block;
-    margin: 0 auto; /* This will center the logo if the parent div doesn't have any other alignment styles */
+    position: absolute; /* Position the logo absolutely within its relative parent */
+    top: 10px; /* Adjust as needed to set the distance from the top */
+    left: 50%; /* Center the logo horizontally */
+    transform: translateX(-50%); /* Shift the logo back by half its width to ensure true centering */
 }
+
 
 
 #container {
