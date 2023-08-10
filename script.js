@@ -1,4 +1,4 @@
-// Importing Supabase client
+// Importing my Supabase client
 import { createClient } from 'https://cdn.skypack.dev/@supabase/supabase-js';
 
 // Initialize Supabase client
