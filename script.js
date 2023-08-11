@@ -2,7 +2,7 @@ let myChart = null;
 let retirementCosts = {};
 let expenses = {};
 
-async function fetchDataAndUpdate() {
+async function fetchDataAndUpdate(callback) {
     // Clear specific item from localStorage
     localStorage.removeItem('countryData');
 
@@ -32,7 +32,12 @@ async function fetchDataAndUpdate() {
                 console.error('Error fetching the data:', error);
             });
     }
-}
+
+    // After updating the retirement costs, save them to localStorage
+    saveUpdatedData({ retirementCosts, expenses });
+
+    // Call the callback if provided
+    if (callback) callback();
 
 // Call the function on window load
 window.onload = fetchDataAndUpdate;
