@@ -7,17 +7,15 @@ body {
 
 #main-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Aligns items to the top */
     min-height: 100vh; /* This ensures that the content is centered vertically if it's less than the viewport height */
 }
 
 #logo {
     width: 300px; /* Adjust as needed */
     display: block;
-    margin: 0 auto; /* This will center the logo if the parent div doesn't have any other alignment styles */
+    /* Removed the margin property */
 }
-
 #container {
     background-color: #ffffff;
     padding: 20px;
