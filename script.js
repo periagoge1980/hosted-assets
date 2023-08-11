@@ -166,4 +166,46 @@ async function updateRetirementCosts() {
             }
 
             const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
-            return
+                        return fetch(apiUrl)
+                .then(response => response.json())
+                .then(apiData => {
+                    const gniPerCapita = apiData[1][0].value;
+                    // Update the retirementCosts for the country
+                    retirementCosts[country] = gniPerCapita;
+                })
+                .catch(error => {
+                    console.error(`Error fetching data for ${country}:`, error);
+                });
+        });
+    }));
+
+    // After updating the retirement costs, save them to localStorage
+    saveUpdatedData({ retirementCosts, expenses });
+}
+
+function saveUpdatedData(updatedData) {
+    try {
+        localStorage.setItem('countryData', JSON.stringify(updatedData));
+        console.log('Data saved to localStorage');
+    } catch (error) {
+        console.error('Error saving data to localStorage:', error);
+    }
+}
+
+function getCountryCode(country_name) {
+    return fetch('countryCode.json')
+        .then(response => response.json())
+        .then(data => {
+            for (let country of data.countries) {
+                if (country.countryName === country_name) {
+                    return country.countryCode;
+                }
+            }
+            return null;
+        })
+        .catch(error => {
+            console.error('Error fetching the data:', error);
+            return null;
+        });
+}
+
