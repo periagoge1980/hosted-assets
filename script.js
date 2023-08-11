@@ -36,9 +36,13 @@ async function fetchDataAndUpdate(callback) {
     // After updating the retirement costs, save them to localStorage
     saveUpdatedData({ retirementCosts, expenses });
 
-    // Call the callback if provided
-    if (callback) callback();
+    // Call the callback if provided and if it's a function
+    if (typeof callback === "function") {
+        callback();
+    }
 }
+
+
 // Call the function on window load
 window.onload = fetchDataAndUpdate;
 
