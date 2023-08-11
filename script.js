@@ -3,13 +3,7 @@ let retirementCosts = {};
 let expenses = {};
 
 async function fetchDataAndUpdate(callback) {
-    // Clear specific item from localStorage
-    //localStorage.removeItem('countryData');
-
-    // First, update the retirement costs
-    await updateRetirementCosts();
-
-    // Then, try to fetch data from localStorage
+    // First, try to fetch data from localStorage
     const localData = localStorage.getItem('countryData');
     if (localData) {
         const parsedData = JSON.parse(localData);
@@ -18,30 +12,28 @@ async function fetchDataAndUpdate(callback) {
         document.getElementById("calculateButton").disabled = false;
     } else {
         // If not in localStorage, fetch from countryData.json
-        fetch('countryData.json')
+        await fetch('countryData.json')
             .then(response => response.json())
             .then(data => {
                 retirementCosts = data.retirementCosts;
                 expenses = data.expenses;
-                console.log("Retirement Costs:", retirementCosts); // Troubleshooting log
-
-                // Enable the calculate button after fetching the data
-                document.getElementById("calculateButton").disabled = false;
             })
             .catch(error => {
                 console.error('Error fetching the data:', error);
             });
-    }
 
-    // After updating the retirement costs, save them to localStorage
-    saveUpdatedData({ retirementCosts, expenses });
+        // Then, update the retirement costs
+        await updateRetirementCosts();
+
+        // After updating the retirement costs, save them to localStorage
+        saveUpdatedData({ retirementCosts, expenses });
+    }
 
     // Call the callback if provided and if it's a function
     if (typeof callback === "function") {
         callback();
     }
 }
-
 
 // Call the function on window load
 window.onload = fetchDataAndUpdate;
