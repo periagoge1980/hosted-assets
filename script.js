@@ -95,12 +95,26 @@ function displayExpenses(country) {
 
     for (let item in expenses[country]) {
         const expenseItem = document.createElement("div");
-        expenseItem.style.backgroundImage = `url(${item.replace(/ /g, '').toLowerCase()}.jpg)`;
-        expenseItem.style.backgroundSize = 'cover';
-        expenseItem.innerHTML = `<p>${item}: ${expenses[country][item]}</p>`;
+
+        // Create an image element for the expense
+        const expenseImage = document.createElement("img");
+        expenseImage.src = `${item.replace(/ /g, '').toLowerCase()}.jpg`;
+        expenseImage.alt = item;
+        expenseImage.style.width = "100%"; // Set the width to 100% of the parent div
+        expenseImage.style.borderRadius = "5px"; // Add some border-radius to match the parent div
+
+        // Append the image to the expenseItem div
+        expenseItem.appendChild(expenseImage);
+
+        // Create and append the text
+        const expenseText = document.createElement("p");
+        expenseText.innerText = `${item}: ${expenses[country][item]}`;
+        expenseItem.appendChild(expenseText);
+
         expenseDiv.appendChild(expenseItem);
     }
 }
+
 
 function displayBarGraph(selectedCountry) {
     const barGraphDiv = document.getElementById('barGraph');
