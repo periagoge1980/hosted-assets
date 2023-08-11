@@ -190,10 +190,11 @@ async function updateRetirementCosts() {
                     console.error(`Error fetching data for ${country}:`, error);
                 });
         });
-    }));
-
-    // After updating the retirement costs, save them to localStorage
-    saveUpdatedData({ retirementCosts, expenses });
+    }))
+    .then(() => {
+        // After updating the retirement costs, save them to localStorage
+        saveUpdatedData({ retirementCosts, expenses });
+    });
 }
 
 
