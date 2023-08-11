@@ -38,7 +38,7 @@ async function fetchDataAndUpdate(callback) {
 
     // Call the callback if provided
     if (callback) callback();
-
+}
 // Call the function on window load
 window.onload = fetchDataAndUpdate;
 
