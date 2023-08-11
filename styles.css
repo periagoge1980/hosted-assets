@@ -108,8 +108,8 @@ button:hover {
 }
 
 #expenses div {
-    position: relative;
     display: flex;
+    flex-direction: column; /* Stack the image and text vertically */
     justify-content: center;
     align-items: center;
     border: 1px solid #e0e0e0;
@@ -117,11 +117,9 @@ button:hover {
     border-radius: 5px;
     color: black;
     font-weight: bold;
-    background-size: contain; /* Adjusted to ensure the image fits within the div */
-    background-repeat: no-repeat; /* Ensure the image doesn't repeat */
+    background-size: cover;
     background-position: center;
     background-color: transparent;
-    max-width: 300px; /* Set a maximum width for each image */
 }
 
 #expenses div::before {
@@ -138,8 +136,6 @@ button:hover {
 }
 
 #expenses div p {
-    position: relative;
-    z-index: 1;
 }
 
 .custom-divider {
