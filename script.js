@@ -4,7 +4,7 @@ let expenses = {};
 
 async function fetchDataAndUpdate(callback) {
     // Clear specific item from localStorage
-    localStorage.removeItem('countryData');
+    //localStorage.removeItem('countryData');
 
     // First, update the retirement costs
     await updateRetirementCosts();
