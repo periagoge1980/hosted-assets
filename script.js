@@ -47,6 +47,7 @@ async function fetchDataAndUpdate(callback) {
 window.onload = fetchDataAndUpdate;
 
 function calculateYears() {
+    console.log("USA data when calculating:", retirementCosts["USA"]);
     const country = document.getElementById("country").value;
     const fund = parseFloat(document.getElementById("retirementFund").value);
     const usaCost = retirementCosts["USA"];
@@ -175,12 +176,15 @@ async function updateRetirementCosts() {
             }
 
             const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
-                        return fetch(apiUrl)
+            return fetch(apiUrl)
                 .then(response => response.json())
                 .then(apiData => {
                     const gniPerCapita = apiData[1][0].value;
                     // Update the retirementCosts for the country
                     retirementCosts[country] = gniPerCapita;
+                    if (country === "USA") {
+                        console.log("USA GNI per Capita:", gniPerCapita);
+                    }
                 })
                 .catch(error => {
                     console.error(`Error fetching data for ${country}:`, error);
@@ -192,14 +196,17 @@ async function updateRetirementCosts() {
     saveUpdatedData({ retirementCosts, expenses });
 }
 
+
 function saveUpdatedData(updatedData) {
     try {
         localStorage.setItem('countryData', JSON.stringify(updatedData));
         console.log('Data saved to localStorage');
+        console.log('USA data in saved data:', updatedData.retirementCosts["USA"]);
     } catch (error) {
         console.error('Error saving data to localStorage:', error);
     }
 }
+
 
 function getCountryCode(country_name) {
     return fetch('countryCode.json')
