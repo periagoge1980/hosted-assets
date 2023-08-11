@@ -9,35 +9,33 @@ async function fetchDataAndUpdate(callback) {
         const parsedData = JSON.parse(localData);
         retirementCosts = parsedData.retirementCosts;
         expenses = parsedData.expenses;
-        document.getElementById("calculateButton").disabled = false;
     } else {
-        // If not in localStorage, fetch from countryData.json
-        await fetch('countryData.json')
-            .then(response => response.json())
-            .then(data => {
-                retirementCosts = data.retirementCosts;
-                expenses = data.expenses;
-            })
-            .catch(error => {
-                console.error('Error fetching the data:', error);
-            });
+        try {
+            // If not in localStorage, fetch from countryData.json
+            const response = await fetch('countryData.json');
+            const data = await response.json();
+            retirementCosts = data.retirementCosts;
+            expenses = data.expenses;
 
-        // Then, update the retirement costs
-        await updateRetirementCosts();
+            // Then, update the retirement costs
+            await updateRetirementCosts();
 
-        // After updating the retirement costs, save them to localStorage
-    saveUpdatedData({ retirementCosts, expenses });
+            // After updating the retirement costs, save them to localStorage
+            saveUpdatedData({ retirementCosts, expenses });
+        } catch (error) {
+            console.error('Error fetching the data:', error);
+            // Handle the error further if needed
+        }
+    }
 
-        
     // Enable the calculate button ONLY after all operations are complete
     document.getElementById("calculateButton").disabled = false;
-    }
 
     // Call the callback if provided and if it's a function
     if (typeof callback === "function") {
         callback();
     }
-
+}
 // Call the function on window load
 window.onload = fetchDataAndUpdate;
 
