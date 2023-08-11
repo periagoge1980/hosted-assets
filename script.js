@@ -175,7 +175,7 @@ async function updateRetirementCosts() {
                 return;
             }
 
-            const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
+        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode.toLowerCase()}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
             return fetch(apiUrl)
                 .then(response => response.json())
                 .then(apiData => {
