@@ -26,14 +26,17 @@ async function fetchDataAndUpdate(callback) {
         await updateRetirementCosts();
 
         // After updating the retirement costs, save them to localStorage
-        saveUpdatedData({ retirementCosts, expenses });
+    saveUpdatedData({ retirementCosts, expenses });
+
+        
+    // Enable the calculate button ONLY after all operations are complete
+    document.getElementById("calculateButton").disabled = false;
     }
 
     // Call the callback if provided and if it's a function
     if (typeof callback === "function") {
         callback();
     }
-}
 
 // Call the function on window load
 window.onload = fetchDataAndUpdate;
