@@ -23,8 +23,9 @@
     "Vietnam": 1000,
     "USA": 1000
   },
-  "exchangeRate": {
+"rate": {
     "USDtoCAD": 1.3431
+}
   },
     "expenses": {
         "USA": {
