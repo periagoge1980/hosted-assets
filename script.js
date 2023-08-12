@@ -37,7 +37,19 @@ async function fetchDataAndUpdate(callback) {
     }
 }
 // Call the function on window load
-window.onload = fetchDataAndUpdate;
+window.onload = function() {
+    fetchDataAndUpdate();
+
+    document.getElementById("currentCountry").addEventListener("change", function() {
+        const selectedCountry = this.value;
+        const label = document.querySelector("label[for='retirementFund']");
+        if (selectedCountry === "Canada") {
+            label.innerText = "Enter your total expected retirement funds in CAD:";
+        } else {
+            label.innerText = "Enter your total expected retirement funds in USD:";
+        }
+    });
+};
 
 function calculateYears() {
     console.log("USA data when calculating:", retirementCosts["USA"]);
