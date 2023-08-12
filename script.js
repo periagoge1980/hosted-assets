@@ -10,6 +10,7 @@ async function fetchDataAndUpdate(callback) {
         const parsedData = JSON.parse(localData);
         retirementCosts = parsedData.retirementCosts;
         expenses = parsedData.expenses;
+        exchangeRates = parsedData.rate;
     } else {
         try {
             // If not in localStorage, fetch from countryData.json
@@ -24,7 +25,7 @@ async function fetchDataAndUpdate(callback) {
             await updateRetirementCosts();
 
             // After updating the retirement costs, save them to localStorage
-            saveUpdatedData({ retirementCosts, expenses });
+            saveUpdatedData({ retirementCosts, expenses, rate: exchangeRates });
         } catch (error) {
             console.error('Error fetching the data:', error);
             // Handle the error further if needed
