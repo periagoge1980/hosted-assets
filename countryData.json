@@ -23,10 +23,9 @@
     "Vietnam": 1000,
     "USA": 1000
   },
-  {
-    "exchangeRate":
+  "exchangeRate": {
     "USDtoCAD": 1.3431
-   },
+  },
     "expenses": {
         "USA": {
             "One coffee": "$3 - $5",
