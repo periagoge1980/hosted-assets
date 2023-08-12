@@ -84,9 +84,9 @@ function calculateYears() {
                 let resultMessage;
 
                 if (yearsInSelectedCountry > 100) {
-                    resultMessage = `You clearly would not have to worry in ${country} as your funds would last you more than a lifetime (approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months). Your retirement funds would also last you much longer there compared to in ${currentCountry}, where they would last approximately ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months.`;
+                    resultMessage = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>You clearly would not have to worry in ${country} as your funds would last you more than a lifetime (approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months). Your retirement funds would also last you much longer there compared to in ${currentCountry}, where they would last approximately ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months.`;
                 } else {
-                    resultMessage = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming a middle-class lifestyle, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months in ${currentCountry}.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
+                    resultMessage = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming you adjust your spending to match the middle-class lifestyle from that country, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months in ${currentCountry}.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
                 }
 
                 document.getElementById("result").innerHTML = resultMessage;
