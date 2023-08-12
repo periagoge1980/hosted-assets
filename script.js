@@ -51,9 +51,6 @@ window.onload = function() {
     });
 };
 
-I apologize for the oversight. Here's the full `calculateYears()` function with the provided snippet integrated:
-
-```javascript
 function calculateYears() {
     // New snippet starts here
     const fundElement = document.getElementById("retirementFund");
@@ -115,49 +112,6 @@ function calculateYears() {
                     document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming a middle-class lifestyle, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months in ${currentCountry}.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
                 }
 
-                displayExpenses(country);
-                displayBarGraph(country);
-            })
-            .catch(error => {
-                console.error(`Error fetching data for ${country}:`, error);
-            });
-    });
-}
-
-    getCountryCode(country).then(countryCode => {
-        if (!countryCode) {
-            document.getElementById("result").innerText = "Error retrieving country code for selected country.";
-            return;
-        }
-
-        const previousYear = new Date().getFullYear() - 1;
-        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(apiData => {
-                const gniPerCapita = apiData[1][0].value;
-                console.log("GNI per Capita for", country, ":", gniPerCapita); // Troubleshooting log
-
-                console.log("USA Retirement Cost:", usaCost); // Troubleshooting log
-
-                const totalYearsInSelectedCountry = fund / gniPerCapita;
-                const totalYearsInCurrentCountry = fund / currentCountryCost;
-
-                const yearsInSelectedCountry = Math.floor(totalYearsInSelectedCountry);
-                const monthsInSelectedCountry = Math.round((totalYearsInSelectedCountry - yearsInSelectedCountry) * 12);
-
-                const yearsInCurrentCountry = Math.floor(totalYearsInCurrentCountry);
-                const monthsInCurrentCountry = Math.round((totalYearsInCurrentCountry - yearsInCurrentCountry) * 12);
-
-                let resultMessage;
-
-                if (yearsInSelectedCountry > 100) {
-                    resultMessage = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>You clearly would not have to worry in ${country} as your funds would last you more than a lifetime (approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months). Your retirement funds would also last you much longer there compared to in ${currentCountry}, where they would last approximately ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months.`;
-                } else {
-                    resultMessage = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming you adjust your spending to match the middle-class lifestyle from that country, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months in ${currentCountry}.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
-                }
-
-                document.getElementById("result").innerHTML = resultMessage;
                 displayExpenses(country);
                 displayBarGraph(country);
             })
