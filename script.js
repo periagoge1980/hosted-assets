@@ -1,7 +1,7 @@
 let myChart = null;
 let retirementCosts = {};
 let expenses = {};
-let exchangeRate = {};
+let exchangeRates = {};
 
 async function fetchDataAndUpdate(callback) {
     // First, try to fetch data from localStorage
@@ -17,7 +17,8 @@ async function fetchDataAndUpdate(callback) {
             const data = await response.json();
             retirementCosts = data.retirementCosts;
             expenses = data.expenses;
-            exchangeRate = data.exchangeRate;
+            exchangeRates = data.rate;
+
 
             // Then, update the retirement costs
             await updateRetirementCosts();
@@ -60,9 +61,10 @@ function calculateYears() {
 
     const currentCountry = document.getElementById("currentCountry").value;
     if (currentCountry === "Canada") {
-        const exchangeRate = retirementCosts.exchangeRate.USDtoCAD; // Make sure countryData is accessible here
-        if (exchangeRate) {
-            fund = fund / exchangeRate;
+        const rate = exchangeRates.USDtoCAD;
+ // Make sure countryData is accessible here
+        if (rate) {
+            fund = fund / rate;
         }
         localStorage.setItem('convertedFundUSD', fund);
     } else {
@@ -73,7 +75,7 @@ function calculateYears() {
     console.log("USA data when calculating:", retirementCosts["USA"]);
     const country = document.getElementById("country").value;
     const currentCountryCost = retirementCosts[currentCountry];
-    const rate = exchangeRate.USDtoCAD;
+    // No need to re-declare, just use the rate variable directly
     const usaCost = retirementCosts["USA"] || 0; // Default to 0 if undefined
     console.log("USA Retirement Cost:", usaCost); // Troubleshooting log
 
