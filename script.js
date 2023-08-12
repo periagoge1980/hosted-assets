@@ -45,14 +45,12 @@ function calculateYears() {
     const fund = parseFloat(document.getElementById("retirementFund").value);
     const currentCountry = document.getElementById("currentCountry").value;
     const currentCountryCost = retirementCosts[currentCountry];
+    const usaCost = retirementCosts["USA"] || 0; // Default to 0 if undefined
 
-    const usaCost = retirementCosts["USA"];
     if (!usaCost || usaCost === 0) {
-    document.getElementById("result").innerText = "Error: Retirement cost data for the USA is missing or zero.";
-    return;
+        document.getElementById("result").innerText = "Error: Retirement cost data for the USA is missing or zero.";
+        return;
     }
-
-
     if (isNaN(fund)) {
         document.getElementById("result").innerText = "Please enter a valid retirement fund amount.";
         return;
@@ -72,20 +70,26 @@ function calculateYears() {
                 const gniPerCapita = apiData[1][0].value;
                 console.log("GNI per Capita for", country, ":", gniPerCapita); // Troubleshooting log
 
-                const usaCost = retirementCosts["USA"] || 0; // Default to 0 if undefined
                 console.log("USA Retirement Cost:", usaCost); // Troubleshooting log
 
                 const totalYearsInSelectedCountry = fund / gniPerCapita;
-
                 const totalYearsInCurrentCountry = fund / currentCountryCost;
-                const yearsInCurrentCountry = Math.floor(totalYearsInCurrentCountry);
-                const monthsInCurrentCountry = Math.round((totalYearsInCurrentCountry - yearsInCurrentCountry) * 12);
 
-                
                 const yearsInSelectedCountry = Math.floor(totalYearsInSelectedCountry);
                 const monthsInSelectedCountry = Math.round((totalYearsInSelectedCountry - yearsInSelectedCountry) * 12);
 
-                document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming a middle-class lifestyle, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months in ${currentCountry}.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
+                const yearsInCurrentCountry = Math.floor(totalYearsInCurrentCountry);
+                const monthsInCurrentCountry = Math.round((totalYearsInCurrentCountry - yearsInCurrentCountry) * 12);
+
+                let resultMessage;
+
+                if (yearsInSelectedCountry > 100) {
+                    resultMessage = `You clearly would not have to worry in ${country} as your funds would last you more than a lifetime (approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months). Your retirement funds would also last you much longer there compared to in ${currentCountry}, where they would last approximately ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months.`;
+                } else {
+                    resultMessage = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming a middle-class lifestyle, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months in ${currentCountry}.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
+                }
+
+                document.getElementById("result").innerHTML = resultMessage;
                 displayExpenses(country);
                 displayBarGraph(country);
             })
