@@ -46,10 +46,13 @@ function calculateYears() {
     const currentCountry = document.getElementById("currentCountry").value;
     const currentCountryCost = retirementCosts[currentCountry];
 
+    const usaCost = retirementCosts["USA"];
     if (!usaCost || usaCost === 0) {
-        document.getElementById("result").innerText = "Error: Retirement cost data for the USA is missing or zero.";
-        return;
+    document.getElementById("result").innerText = "Error: Retirement cost data for the USA is missing or zero.";
+    return;
     }
+
+
     if (isNaN(fund)) {
         document.getElementById("result").innerText = "Please enter a valid retirement fund amount.";
         return;
