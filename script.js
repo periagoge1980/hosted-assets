@@ -51,6 +51,9 @@ window.onload = function() {
     });
 };
 
+I apologize for the oversight. Here's the full `calculateYears()` function with the provided snippet integrated:
+
+```javascript
 function calculateYears() {
     // New snippet starts here
     const fundElement = document.getElementById("retirementFund");
@@ -121,7 +124,6 @@ function calculateYears() {
     });
 }
 
-    
     getCountryCode(country).then(countryCode => {
         if (!countryCode) {
             document.getElementById("result").innerText = "Error retrieving country code for selected country.";
