@@ -149,7 +149,7 @@ button:hover {
 #barGraph {
     height: 400px;
     width: 100%;
-    background: #f9f9f9; /* Light gray background for the graph container */
-    border-radius: 10px; /* Rounded corners for the graph container */
-    overflow: hidden; /* Ensures that the graph corners are also rounded */
+    background: transparent; /* Initially set to transparent */
+    border-radius: 10px;
+    overflow: hidden;
 }
