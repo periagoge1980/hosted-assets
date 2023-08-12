@@ -43,7 +43,9 @@ function calculateYears() {
     console.log("USA data when calculating:", retirementCosts["USA"]);
     const country = document.getElementById("country").value;
     const fund = parseFloat(document.getElementById("retirementFund").value);
-    const usaCost = retirementCosts["USA"];
+    const currentCountry = document.getElementById("currentCountry").value;
+    const currentCountryCost = retirementCosts[currentCountry];
+
     if (!usaCost || usaCost === 0) {
         document.getElementById("result").innerText = "Error: Retirement cost data for the USA is missing or zero.";
         return;
@@ -72,9 +74,10 @@ function calculateYears() {
 
                 const totalYearsInSelectedCountry = fund / gniPerCapita;
 
-                const totalYearsInUSA = fund / usaCost;
-                const yearsInUSA = Math.floor(totalYearsInUSA);
-                const monthsInUSA = Math.round((totalYearsInUSA - yearsInUSA) * 12);
+                const totalYearsInCurrentCountry = fund / currentCountryCost;
+                const yearsInCurrentCountry = Math.floor(totalYearsInCurrentCountry);
+                const monthsInCurrentCountry = Math.round((totalYearsInCurrentCountry - yearsInCurrentCountry) * 12);
+
                 
                 const yearsInSelectedCountry = Math.floor(totalYearsInSelectedCountry);
                 const monthsInSelectedCountry = Math.round((totalYearsInSelectedCountry - yearsInSelectedCountry) * 12);
