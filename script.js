@@ -158,7 +158,17 @@ function displayBarGraph(selectedCountry) {
 
     // Get the countries and their costs
     const countries = Object.keys(retirementCosts);
-    const costs = countries.map(country => retirementCosts[country]);
+    let costs = countries.map(country => retirementCosts[country]);
+
+    const currentCountry = document.getElementById("currentCountry").value;
+    let yAxisTitle = "Cost in USD";
+
+    // If the user's current country of residence is Canada, convert the costs to CAD
+    if (currentCountry === "Canada") {
+        const rate = exchangeRates.USDtoCAD;
+        costs = costs.map(cost => cost * rate);
+        yAxisTitle = "Cost in CAD";
+    }
 
     // Sort countries based on their costs in descending order
     const sortedIndices = costs.map((cost, index) => index).sort((a, b) => costs[b] - costs[a]);
@@ -192,7 +202,7 @@ function displayBarGraph(selectedCountry) {
             gridcolor: '#e1e1e1' // Light gray grid lines
         },
         yaxis: {
-            title: 'Cost in USD',
+            title: yAxisTitle, // Adjusted y-axis title based on the currency
             gridcolor: '#e1e1e1'
         },
         margin: {
@@ -209,6 +219,7 @@ function displayBarGraph(selectedCountry) {
         barGraphDiv.style.backgroundColor = '#f9f9f9';
     });
 }
+
 
 async function updateRetirementCosts() {
     const previousYear = new Date().getFullYear() - 1;
