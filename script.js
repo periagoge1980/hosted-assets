@@ -52,12 +52,28 @@ window.onload = function() {
 };
 
 function calculateYears() {
+    // New snippet starts here
+    const fundElement = document.getElementById("retirementFund");
+    let fund = parseFloat(fundElement.value);
+
+    const currentCountry = document.getElementById("currentCountry").value;
+    if (currentCountry === "Canada") {
+        const exchangeRate = countryData.exchangeRate.USDtoCAD; // Make sure countryData is accessible here
+        if (exchangeRate) {
+            fund = fund / exchangeRate;
+        }
+        localStorage.setItem('convertedFundUSD', fund);
+    } else {
+        localStorage.setItem('originalFundUSD', fund);
+    }
+    // New snippet ends here
+
     console.log("USA data when calculating:", retirementCosts["USA"]);
     const country = document.getElementById("country").value;
-    const fund = parseFloat(document.getElementById("retirementFund").value);
-    const currentCountry = document.getElementById("currentCountry").value;
     const currentCountryCost = retirementCosts[currentCountry];
+
     const usaCost = retirementCosts["USA"] || 0; // Default to 0 if undefined
+    console.log("USA Retirement Cost:", usaCost); // Troubleshooting log
 
     if (!usaCost || usaCost === 0) {
         document.getElementById("result").innerText = "Error: Retirement cost data for the USA is missing or zero.";
@@ -67,6 +83,44 @@ function calculateYears() {
         document.getElementById("result").innerText = "Please enter a valid retirement fund amount.";
         return;
     }
+    
+    getCountryCode(country).then(countryCode => {
+        if (!countryCode) {
+            document.getElementById("result").innerText = "Error retrieving country code for selected country.";
+            return;
+        }
+
+        const previousYear = new Date().getFullYear() - 1;
+        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(apiData => {
+                const gniPerCapita = apiData[1][0].value;
+                console.log("GNI per Capita for", country, ":", gniPerCapita); // Troubleshooting log
+
+                const totalYearsInSelectedCountry = fund / gniPerCapita;
+                const yearsInSelectedCountry = Math.floor(totalYearsInSelectedCountry);
+                const monthsInSelectedCountry = Math.round((totalYearsInSelectedCountry - yearsInSelectedCountry) * 12);
+
+                const totalYearsInCurrentCountry = fund / currentCountryCost;
+                const yearsInCurrentCountry = Math.floor(totalYearsInCurrentCountry);
+                const monthsInCurrentCountry = Math.round((totalYearsInCurrentCountry - yearsInCurrentCountry) * 12);
+
+                if (yearsInSelectedCountry > 100) {
+                    document.getElementById("result").innerHTML = `You clearly would not have to worry in ${country} as your funds would last you more than a lifetime (approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months). Your retirement funds would also last you much longer there compared to in ${currentCountry}, where they would last approximately ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months.`;
+                } else {
+                    document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming a middle-class lifestyle, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months in ${currentCountry}.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
+                }
+
+                displayExpenses(country);
+                displayBarGraph(country);
+            })
+            .catch(error => {
+                console.error(`Error fetching data for ${country}:`, error);
+            });
+    });
+}
+
     
     getCountryCode(country).then(countryCode => {
         if (!countryCode) {
