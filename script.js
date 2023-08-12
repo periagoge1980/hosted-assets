@@ -167,7 +167,10 @@ function displayBarGraph(selectedCountry) {
         }
     };
 
-    Plotly.newPlot(barGraphDiv, data, layout);
+    Plotly.newPlot(barGraphDiv, data, layout).then(() => {
+        // Set the background color once the graph is loaded
+        barGraphDiv.style.backgroundColor = '#f9f9f9';
+    });
 }
 
 async function updateRetirementCosts() {
