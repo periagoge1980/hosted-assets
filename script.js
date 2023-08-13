@@ -20,7 +20,6 @@ async function fetchDataAndUpdate(callback) {
             expenses = data.expenses;
             exchangeRates = data.rate;
 
-
             // Then, update the retirement costs
             await updateRetirementCosts();
 
@@ -282,7 +281,6 @@ async function updateRetirementCosts() {
         saveUpdatedData({ retirementCosts, expenses });
     });
 }
-
 
 function saveUpdatedData(updatedData) {
     try {
