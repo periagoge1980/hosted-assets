@@ -152,3 +152,42 @@ button:hover {
     border-radius: 10px;
     overflow: hidden;
 }
+
+/* Media Queries for Responsiveness */
+
+/* For mobile phones */
+@media (max-width: 767px) {
+    #main-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #container {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    #header, #content {
+        padding: 0;
+        border: none;
+    }
+
+    select, input, button {
+        width: 100%; /* Make form elements span the full width on mobile */
+    }
+
+    #expenses {
+        grid-template-columns: repeat(1, 1fr); /* Display one item per row on mobile */
+    }
+
+    .custom-divider {
+        width: 100%; /* Make the divider span the full width on mobile */
+    }
+}
+
+/* For tablets and larger devices */
+@media (min-width: 768px) and (max-width: 1024px) {
+    #expenses {
+        grid-template-columns: repeat(2, 1fr); /* Display two items per row on tablets */
+    }
+}
