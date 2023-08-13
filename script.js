@@ -130,6 +130,14 @@ function displayExpenses(country) {
     const expenseDiv = document.getElementById("expenses");
     expenseDiv.innerHTML = ""; // Clear previous expenses
 
+    const currentCountry = document.getElementById("currentCountry").value;
+    let rate = 1; // Default rate is 1 (no conversion)
+
+    // If the user's current country of residence is Canada, get the conversion rate
+    if (currentCountry === "Canada") {
+        rate = exchangeRates.USDtoCAD;
+    }
+
     for (let item in expenses[country]) {
         const expenseItem = document.createElement("div");
 
@@ -143,14 +151,24 @@ function displayExpenses(country) {
         // Append the image to the expenseItem div
         expenseItem.appendChild(expenseImage);
 
+        // Convert the expense range to CAD if necessary
+        let expenseRange = expenses[country][item].split(" - ");
+        if (rate !== 1) {
+            expenseRange = expenseRange.map(value => {
+                const convertedValue = (parseFloat(value.replace("$", "")) * rate).toFixed(2);
+                return `$${convertedValue}`;
+            });
+        }
+
         // Create and append the text
         const expenseText = document.createElement("p");
-        expenseText.innerText = `${item}: ${expenses[country][item]}`;
+        expenseText.innerText = `${item}: ${expenseRange.join(" - ")}`;
         expenseItem.appendChild(expenseText);
 
         expenseDiv.appendChild(expenseItem);
     }
 }
+
 
 
 function displayBarGraph(selectedCountry) {
