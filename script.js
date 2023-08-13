@@ -126,10 +126,6 @@ function calculateYears() {
     });
 }
 
-function roundToQuarter(value) {
-    return Math.ceil(value * 4) / 4;
-}
-
 function displayExpenses(country) {
     const expenseDiv = document.getElementById("expenses");
     expenseDiv.innerHTML = ""; // Clear previous expenses
@@ -155,14 +151,24 @@ function displayExpenses(country) {
         // Append the image to the expenseItem div
         expenseItem.appendChild(expenseImage);
 
-        // Convert the expense range to CAD if necessary and round to the nearest quarter
+        // Convert the expense range to CAD if necessary and round to the nearest dollar
         let expenseRange = expenses[country][item].split(" - ");
         if (rate !== 1) {
             expenseRange = expenseRange.map(value => {
-                const convertedValue = roundToQuarter(parseFloat(value.replace("$", "")) * rate);
-                return `$${convertedValue.toFixed(2)}`;
+                const convertedValue = Math.round(parseFloat(value.replace("$", "")) * rate);
+                return `$${convertedValue}`;
             });
         }
+
+        // Create and append the text
+        const expenseText = document.createElement("p");
+        expenseText.innerText = `${item}: ${expenseRange.join(" - ")}`;
+        expenseItem.appendChild(expenseText);
+
+        expenseDiv.appendChild(expenseItem);
+    }
+}
+
 
         // Create and append the text
         const expenseText = document.createElement("p");
