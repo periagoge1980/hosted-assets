@@ -61,8 +61,11 @@ function calculateYears() {
 
     const currentCountry = document.getElementById("currentCountry").value;
     if (currentCountry === "Canada") {
+        if (!exchangeRates || !exchangeRates.USDtoCAD) {
+            console.error("Exchange rates not loaded yet or USDtoCAD rate missing.");
+            return;
+        }
         const rate = exchangeRates.USDtoCAD;
- // Make sure countryData is accessible here
         if (rate) {
             fund = fund / rate;
         }
