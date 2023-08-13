@@ -169,16 +169,6 @@ function displayExpenses(country) {
 }
 
 
-        // Create and append the text
-        const expenseText = document.createElement("p");
-        expenseText.innerText = `${item}: ${expenseRange.join(" - ")}`;
-        expenseItem.appendChild(expenseText);
-
-        expenseDiv.appendChild(expenseItem);
-    }
-}
-
-
 
 function displayBarGraph(selectedCountry) {
     const barGraphDiv = document.getElementById('barGraph');
