@@ -114,9 +114,9 @@ function calculateYears() {
                 const monthsInCurrentCountry = Math.round((totalYearsInCurrentCountry - yearsInCurrentCountry) * 12);
 
                 if (yearsInSelectedCountry > 100) {
-                    document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>You clearly would not have to worry in ${country} as your funds would last more than 100 years assuming you adjust your spending to match the middle-class lifestyle of that country.  <br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
+                    document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>You clearly would not have to worry in ${country} as your funds would last more than 100 years assuming you adjust your spending to match the middle-class lifestyle of that country (about ${yearsInSelectedCountry} years in fact!).  <br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
                 } else {
-                    document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming you adjust your spending to match the middle-class lifestyle of that country, your retirement funds could last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months in ${currentCountry}.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
+                    document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming you adjust your spending to match the middle lifestyle of that country, your retirement funds could last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months in ${currentCountry}.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
                 }
 
                 displayExpenses(country);
