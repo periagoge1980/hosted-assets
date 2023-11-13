@@ -303,3 +303,42 @@ function getCountryCode(country_name) {
         });
 }
 
+// Set your API key
+const apiKey = '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';
+
+// Function to make an API request
+async function generateText(prompt) {
+  const endpoint = 'https://api.openai.com/v1/engines/davinci/completions';
+  const maxTokens = 50; // Set the desired response length
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        max_tokens: maxTokens,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const generatedText = data.choices[0].text;
+    console.log(generatedText);
+
+    // Display the generated text on your website
+    document.getElementById('output').innerText = generatedText;
+  } catch (error) {
+    console.error('API Request Error:', error);
+  }
+}
+
+// Example usage
+const prompt = "Translate the following English text to French: 'Hello, world!'";
+generateText(prompt);
