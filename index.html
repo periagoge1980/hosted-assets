@@ -8,6 +8,7 @@
 </head>
 <body>
 <div id="main-container">
+<<<<<<< HEAD
     <div id="container">
         <div id="header">
             <a href="https://sunnyyears.netlify.app/index"><img src="Sunny Years.png" alt="Sunny Years Logo" id="logo"></a>
@@ -38,6 +39,76 @@
     <div id="resultArea">
         <!-- Model responses will be displayed here -->
         <div id="output"></div> <!-- Add this div for displaying generated text -->
+=======
+<div id="container">
+    <div id="header">
+        <a href="https://sunnyyears.netlify.app/index"><img src="Sunny Years.png" alt="Sunny Years Logo" id="logo"></a>
+        <h2>Not your typical retirement calculator</h2>
+        <h3>Retire abroad and live your best life</h3>
+        <div id="newsletter">
+    <h4>Subscribe to Our Newsletter</h4>
+    <p>Receive monthly insights and recommendations on international retirement.</p>
+    <form name="newsletter-subscription" method="POST" data-netlify="true">
+        <input type="email" name="email" placeholder="Your Email Address" required>
+        <button type="submit">Subscribe</button>
+    </form>
+</div>
+
+    </div>
+    <div id="content">
+        <label for="currentCountry">Where do you currently live?: </label>
+        <select id="currentCountry">
+        <option value="USA">USA</option>
+        <option value="Canada">Canada</option>
+        </select>
+
+        <!-- Dropdown for country selection -->
+        <label for="country">Select your dream retirement destination: </label>
+<select id="country">
+    <option value="Indonesia">Indonesia</option>
+    <option value="Belize">Belize</option>
+    <option value="Bolivia">Bolivia</option>
+    <option value="Canada">Canada</option>
+    <option value="Colombia">Colombia</option>
+    <option value="Costa Rica">Costa Rica</option>
+    <option value="Dominican Republic">Dominican Republic</option>
+    <option value="Ecuador">Ecuador</option>
+    <option value="Georgia">Georgia</option>
+    <option value="Guatemala">Guatemala</option>
+    <option value="Malaysia">Malaysia</option>
+    <option value="Mexico">Mexico</option>
+    <option value="Nicaragua">Nicaragua</option>
+    <option value="Panama">Panama</option>
+    <option value="Peru">Peru</option>
+    <option value="Philippines">Philippines</option>
+    <option value="Portugal">Portugal</option>
+    <option value="Spain">Spain</option>
+    <option value="Thailand">Thailand</option>
+    <option value="Uruguay">Uruguay</option>
+    <option value="Vietnam">Vietnam</option>
+</select>
+
+
+        <!-- Input for retirement fund -->
+        <label for="retirementFund">Enter your total expected retirement funds in USD: </label>
+        <input type="number" id="retirementFund">
+
+        <!-- Button to calculate -->
+        <button onclick="calculateYears()" id="calculateButton" disabled>Calculate</button>
+
+        <!-- Display results -->
+        <p id="result"></p>
+        
+        <!-- Display regular expenses -->
+        <div id="expenses"></div>
+        
+        <!-- Horizontal divider -->
+        <hr class="custom-divider">
+        
+        <!-- div for the bar graph -->
+        <div id="barGraph"></div>
+
+>>>>>>> parent of e002bee (Update index.html)
     </div>
 </div>
 
