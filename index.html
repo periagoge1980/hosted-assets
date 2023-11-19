@@ -16,38 +16,19 @@
     </div>
     <div id="content">
         <!-- Dropdown for country selection -->
-        <label for="country">Select your dream retirement destination: </label>
-<select id="country">
-    <option value="Indonesia">Indonesia</option>
-    <option value="Belize">Belize</option>
-    <option value="Bolivia">Bolivia</option>
-    <option value="Canada">Canada</option>
-    <option value="Colombia">Colombia</option>
-    <option value="Costa Rica">Costa Rica</option>
-    <option value="Dominican Republic">Dominican Republic</option>
-    <option value="Ecuador">Ecuador</option>
-    <option value="Georgia">Georgia</option>
-    <option value="Guatemala">Guatemala</option>
-    <option value="Malaysia">Malaysia</option>
-    <option value="Mexico">Mexico</option>
-    <option value="Nicaragua">Nicaragua</option>
-    <option value="Panama">Panama</option>
-    <option value="Peru">Peru</option>
-    <option value="Philippines">Philippines</option>
-    <option value="Portugal">Portugal</option>
-    <option value="Spain">Spain</option>
-    <option value="Thailand">Thailand</option>
-    <option value="Uruguay">Uruguay</option>
-    <option value="Vietnam">Vietnam</option>
-</select>
-
+        <label for="currentCountry">Select your dream retirement destination: </label>
+        <select id="currentCountry">
+            <option value="Indonesia">Indonesia</option>
+            <option value="Belize">Belize</option>
+            <!-- Add all other country options here -->
+        </select>
 
         <!-- Input for retirement fund -->
         <label for="retirementFund">Enter your total expected retirement funds in USD: </label>
         <input type="number" id="retirementFund">
 
         <!-- Button to calculate -->
-        <button onclick="calculateYears()" id="calculateButton" disabled>Calculate</button>
+        <button onclick="calculateYears()" id="calculateButton">Calculate</button>
 
         <!-- Display results -->
         <p id="result"></p>
@@ -60,7 +41,6 @@
         
         <!-- div for the bar graph -->
         <div id="barGraph"></div>
-
     </div>
 </div>
 </div>
