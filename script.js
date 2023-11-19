@@ -76,7 +76,7 @@ function calculateYears() {
     // New snippet ends here
 
     console.log("USA data when calculating:", retirementCosts["USA"]);
-    const country = document.getElementById("country").value;
+    const country = document.getElementById("currentCountry").value;
     const currentCountryCost = retirementCosts[currentCountry];
     // No need to re-declare, just use the rate variable directly
     const usaCost = retirementCosts["USA"] || 0; // Default to 0 if undefined
