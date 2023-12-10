@@ -8,38 +8,30 @@
 </head>
 <body>
 <div id="main-container">
-    <div id="container">
-        <div id="header">
-            <a href="https://sunnyyears.netlify.app/index"><img src="Sunny Years.png" alt="Sunny Years Logo" id="logo"></a>
-            <h2 data-lang="en">Not your typical retirement calculator</h2>
-            <h2 data-lang="fr" style="display: none;">Pas votre calculateur de retraite typique</h2>
-            <h3 data-lang="en">Retire abroad and live your best life</h3>
-            <h3 data-lang="fr" style="display: none;">Prenez votre retraite à l'étranger et vivez votre meilleure vie</h3>
-            <div id="newsletter">
-                <h4 data-lang="en">Subscribe to Our Newsletter</h4>
-                <h4 data-lang="fr" style="display: none;">Abonnez-vous à notre newsletter</h4>
-                <p data-lang="en">Receive monthly insights and recommendations on international retirement.</p>
-                <p data-lang="fr" style="display: none;">Recevez des informations mensuelles et des recommandations sur la retraite internationale.</p>
-                <form name="newsletter-subscription" action="/" method="POST" data-netlify="true">
-                    <input type="email" name="email" placeholder="Your Email Address" required>
-                    <button type="submit" data-lang="en">Subscribe</button>
-                    <button type="submit" data-lang="fr" style="display: none;">S'abonner</button>
-                </form>
-            </div>
-            <button id="languageToggle" onclick="toggleLanguage()">EN/FR</button>
-        </div>
-        <div id="content">
-            <label for="currentCountry" data-lang="en">Where do you currently live?:</label>
-            <label for="currentCountry" data-lang="fr" style="display: none;">Où habitez-vous actuellement?:</label>
-            <select id="currentCountry">
-                <option value="USA">USA</option>
-                <option value="Canada">Canada</option>
-            </select>
+<div id="container">
+    <div id="header">
+        <a href="https://sunnyyears.netlify.app/index"><img src="Sunny Years.png" alt="Sunny Years Logo" id="logo"></a>
+        <h2>Not your typical retirement calculator</h2>
+        <h3>Retire abroad and live your best life</h3>
+        <div id="newsletter">
+    <h4>Subscribe to Our Newsletter</h4>
+    <p>Receive monthly insights and recommendations on international retirement.</p>
+    <form name="newsletter-subscription" action="/" method="POST" data-netlify="true">
+    <input type="email" name="email" placeholder="Your Email Address" required>
+    <button type="submit">Subscribe</button>
+    </form>
+    </div>
+    </div>
+    <div id="content">
+        <label for="currentCountry">Where do you currently live?: </label>
+        <select id="currentCountry">
+        <option value="USA">USA</option>
+        <option value="Canada">Canada</option>
+        </select>
 
-            <label for="country" data-lang="en">Select your dream retirement destination:</label>
-            <label for="country" data-lang="fr" style="display: none;">Sélectionnez votre destination de retraite de rêve:</label>
-            <!-- Dropdown for country selection -->
-            <select id="country">
+        <!-- Dropdown for country selection -->
+        <label for="country">Select your dream retirement destination: </label>
+<select id="country">
     <option value="Indonesia">Indonesia</option>
     <option value="Belize">Belize</option>
     <option value="Bolivia">Bolivia</option>
@@ -63,23 +55,31 @@
     <option value="Vietnam">Vietnam</option>
 </select>
 
-            <label for="retirementFund" data-lang="en">Enter your total expected retirement funds in USD:</label>
-            <label for="retirementFund" data-lang="fr" style="display: none;">Entrez le montant total prévu de votre retraite en USD:</label>
-            <input type="number" id="retirementFund">
 
-<button onclick="calculateYears()" id="calculateButton" disabled>
-    <span data-lang="en">Calculate</span>
-    <span data-lang="fr" style="display: none;">Calculer</span>
-</button>
+        <!-- Input for retirement fund -->
+        <label for="retirementFund">Enter your total expected retirement funds in USD: </label>
+        <input type="number" id="retirementFund">
 
-            <p id="result"></p>
-            <div id="expenses"></div>
-            <hr class="custom-divider">
-            <div id="barGraph"></div>
-        </div>
+        <!-- Button to calculate -->
+        <button onclick="calculateYears()" id="calculateButton" disabled>Calculate</button>
+
+        <!-- Display results -->
+        <p id="result"></p>
+        
+        <!-- Display regular expenses -->
+        <div id="expenses"></div>
+        
+        <!-- Horizontal divider -->
+        <hr class="custom-divider">
+        
+        <!-- div for the bar graph -->
+        <div id="barGraph"></div>
+
     </div>
+</div>
 </div>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
+
