@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang="en">Sunny Years - Retirement Calculator</title>
-    <title data-lang="fr" style="display: none;">Sunny Years - Calculateur de Retraite</title>
+    <title>Sunny Years - Retirement Calculator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,8 +29,31 @@
             <button id="languageToggle" onclick="toggleLanguage()">EN/FR</button>
         </div>
         <div id="content">
-            <!-- Add data-lang attributes and duplicate for French content where necessary -->
-            <!-- Existing content ... -->
+            <label for="currentCountry" data-lang="en">Where do you currently live?:</label>
+            <label for="currentCountry" data-lang="fr" style="display: none;">Où habitez-vous actuellement?:</label>
+            <select id="currentCountry">
+                <option value="USA">USA</option>
+                <option value="Canada">Canada</option>
+            </select>
+
+            <label for="country" data-lang="en">Select your dream retirement destination:</label>
+            <label for="country" data-lang="fr" style="display: none;">Sélectionnez votre destination de retraite de rêve:</label>
+            <!-- Dropdown for country selection -->
+            <select id="country">
+                <!-- Country options here -->
+            </select>
+
+            <label for="retirementFund" data-lang="en">Enter your total expected retirement funds in USD:</label>
+            <label for="retirementFund" data-lang="fr" style="display: none;">Entrez le montant total prévu de votre retraite en USD:</label>
+            <input type="number" id="retirementFund">
+
+            <button onclick="calculateYears()" id="calculateButton" disabled data-lang="en">Calculate</button>
+            <button onclick="calculateYears()" id="calculateButton" disabled data-lang="fr" style="display: none;">Calculer</button>
+
+            <p id="result"></p>
+            <div id="expenses"></div>
+            <hr class="custom-divider">
+            <div id="barGraph"></div>
         </div>
     </div>
 </div>
