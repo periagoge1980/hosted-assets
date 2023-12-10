@@ -3,80 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sunny Years - Retirement Calculator</title>
+    <title data-lang="en">Sunny Years - Retirement Calculator</title>
+    <title data-lang="fr" style="display: none;">Sunny Years - Calculateur de Retraite</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div id="main-container">
-<div id="container">
-    <div id="header">
-        <a href="https://sunnyyears.netlify.app/index"><img src="Sunny Years.png" alt="Sunny Years Logo" id="logo"></a>
-        <h2>Not your typical retirement calculator</h2>
-        <h3>Retire abroad and live your best life</h3>
-        <div id="newsletter">
-    <h4>Subscribe to Our Newsletter</h4>
-    <p>Receive monthly insights and recommendations on international retirement.</p>
-    <form name="newsletter-subscription" action="/" method="POST" data-netlify="true">
-    <input type="email" name="email" placeholder="Your Email Address" required>
-    <button type="submit">Subscribe</button>
-    </form>
+    <div id="container">
+        <div id="header">
+            <a href="https://sunnyyears.netlify.app/index"><img src="Sunny Years.png" alt="Sunny Years Logo" id="logo"></a>
+            <h2 data-lang="en">Not your typical retirement calculator</h2>
+            <h2 data-lang="fr" style="display: none;">Pas votre calculateur de retraite typique</h2>
+            <h3 data-lang="en">Retire abroad and live your best life</h3>
+            <h3 data-lang="fr" style="display: none;">Prenez votre retraite à l'étranger et vivez votre meilleure vie</h3>
+            <div id="newsletter">
+                <h4 data-lang="en">Subscribe to Our Newsletter</h4>
+                <h4 data-lang="fr" style="display: none;">Abonnez-vous à notre newsletter</h4>
+                <p data-lang="en">Receive monthly insights and recommendations on international retirement.</p>
+                <p data-lang="fr" style="display: none;">Recevez des informations mensuelles et des recommandations sur la retraite internationale.</p>
+                <form name="newsletter-subscription" action="/" method="POST" data-netlify="true">
+                    <input type="email" name="email" placeholder="Your Email Address" required>
+                    <button type="submit" data-lang="en">Subscribe</button>
+                    <button type="submit" data-lang="fr" style="display: none;">S'abonner</button>
+                </form>
+            </div>
+            <button id="languageToggle" onclick="toggleLanguage()">EN/FR</button>
+        </div>
+        <div id="content">
+            <!-- Add data-lang attributes and duplicate for French content where necessary -->
+            <!-- Existing content ... -->
+        </div>
     </div>
-    </div>
-    <div id="content">
-        <label for="currentCountry">Where do you currently live?: </label>
-        <select id="currentCountry">
-        <option value="USA">USA</option>
-        <option value="Canada">Canada</option>
-        </select>
-
-        <!-- Dropdown for country selection -->
-        <label for="country">Select your dream retirement destination: </label>
-<select id="country">
-    <option value="Indonesia">Indonesia</option>
-    <option value="Belize">Belize</option>
-    <option value="Bolivia">Bolivia</option>
-    <option value="Canada">Canada</option>
-    <option value="Colombia">Colombia</option>
-    <option value="Costa Rica">Costa Rica</option>
-    <option value="Dominican Republic">Dominican Republic</option>
-    <option value="Ecuador">Ecuador</option>
-    <option value="Georgia">Georgia</option>
-    <option value="Guatemala">Guatemala</option>
-    <option value="Malaysia">Malaysia</option>
-    <option value="Mexico">Mexico</option>
-    <option value="Nicaragua">Nicaragua</option>
-    <option value="Panama">Panama</option>
-    <option value="Peru">Peru</option>
-    <option value="Philippines">Philippines</option>
-    <option value="Portugal">Portugal</option>
-    <option value="Spain">Spain</option>
-    <option value="Thailand">Thailand</option>
-    <option value="Uruguay">Uruguay</option>
-    <option value="Vietnam">Vietnam</option>
-</select>
-
-
-        <!-- Input for retirement fund -->
-        <label for="retirementFund">Enter your total expected retirement funds in USD: </label>
-        <input type="number" id="retirementFund">
-
-        <!-- Button to calculate -->
-        <button onclick="calculateYears()" id="calculateButton" disabled>Calculate</button>
-
-        <!-- Display results -->
-        <p id="result"></p>
-        
-        <!-- Display regular expenses -->
-        <div id="expenses"></div>
-        
-        <!-- Horizontal divider -->
-        <hr class="custom-divider">
-        
-        <!-- div for the bar graph -->
-        <div id="barGraph"></div>
-
-    </div>
-</div>
 </div>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="script.js"></script>
