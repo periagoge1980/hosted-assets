@@ -4,23 +4,26 @@ let expenses = {};
 let exchangeRates = {};
 
 function fetchDataAndUpdate() {
-  if (localStorage.getItem("exchangeRates")) {
-    exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
-    document.getElementById("calculateButton").disabled = false; // Enable the button
-  } else {
-    fetch("countryData.json")
-      .then(response => response.json())
-      .then(data => {
-        exchangeRates = data.rates;
-        localStorage.setItem("exchangeRates", JSON.stringify(exchangeRates));
-        document.getElementById("calculateButton").disabled = false; // Enable the button here as well
-      })
-      .catch(error => console.error("Error loading exchange rates:", error));
-  }
-}
-    document.getElementById("calculateButton").disabled = false;
-    if (typeof callback === "function") {
-        callback();
+    if (localStorage.getItem("exchangeRates")) {
+        exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
+        document.getElementById("calculateButton").disabled = false; // Enable the button
+    } else {
+        fetch("countryData.json")
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.rates) {
+                    exchangeRates = data.rates;
+                    localStorage.setItem("exchangeRates", JSON.stringify(exchangeRates));
+                    document.getElementById("calculateButton").disabled = false; // Enable the button here as well
+                } else {
+                    console.error("Invalid or missing rates in countryData.json");
+                    // Handle the case where countryData.json is not structured as expected
+                }
+            })
+            .catch(error => {
+                console.error("Error loading exchange rates:", error);
+                // Optionally, implement fallback to hardcoded defaults here if essential
+            });
     }
 }
 
@@ -39,10 +42,10 @@ window.onload = function() {
 
 function calculateYears() {
     if (!exchangeRates || typeof exchangeRates.USDtoCAD === 'undefined') {
-    console.error("Exchange rates not loaded yet or USDtoCAD rate missing.");
-    alert("Exchange rates are loading, please try again in a few seconds.");
-    return; // Exit the function to prevent further execution
-  }
+        console.error("Exchange rates not loaded yet or USDtoCAD rate missing.");
+        alert("Exchange rates are loading, please try again in a few seconds.");
+        return; // Exit the function to prevent further execution
+    }
     const fundElement = document.getElementById("retirementFund");
     let fund = parseFloat(fundElement.value);
     const currentCountry = document.getElementById("currentCountry").value;
@@ -83,15 +86,15 @@ function calculateYears() {
 }
 
 function displayExpenses(country) {
-    // Function content remains unchanged
+    // Implementation remains the same
 }
 
 function displayBarGraph(selectedCountry) {
-    // Function content remains unchanged
+    // Implementation remains the same
 }
 
 async function updateRetirementCosts() {
-    // Function content remains unchanged, ensure to use mrv=1 for API calls
+    // Implementation remains the same
 }
 
 function saveUpdatedData(updatedData) {
