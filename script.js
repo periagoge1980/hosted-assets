@@ -6,14 +6,14 @@ let exchangeRates = {};
 function fetchDataAndUpdate() {
   if (localStorage.getItem("exchangeRates")) {
     exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
-    document.getElementById("calculateButton").disabled = false; // Enable button here
+    document.getElementById("calculateButton").disabled = false; // Enable the button
   } else {
     fetch("countryData.json")
       .then(response => response.json())
       .then(data => {
         exchangeRates = data.rates;
         localStorage.setItem("exchangeRates", JSON.stringify(exchangeRates));
-        document.getElementById("calculateButton").disabled = false; // Enable button here
+        document.getElementById("calculateButton").disabled = false; // Enable the button here as well
       })
       .catch(error => console.error("Error loading exchange rates:", error));
   }
@@ -38,6 +38,11 @@ window.onload = function() {
 };
 
 function calculateYears() {
+    if (!exchangeRates || typeof exchangeRates.USDtoCAD === 'undefined') {
+    console.error("Exchange rates not loaded yet or USDtoCAD rate missing.");
+    alert("Exchange rates are loading, please try again in a few seconds.");
+    return; // Exit the function to prevent further execution
+  }
     const fundElement = document.getElementById("retirementFund");
     let fund = parseFloat(fundElement.value);
     const currentCountry = document.getElementById("currentCountry").value;
