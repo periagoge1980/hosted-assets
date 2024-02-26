@@ -3,26 +3,21 @@ let retirementCosts = {};
 let expenses = {};
 let exchangeRates = {};
 
-async function fetchDataAndUpdate(callback) {
-    const localData = localStorage.getItem('countryData');
-    if (localData) {
-        const parsedData = JSON.parse(localData);
-        retirementCosts = parsedData.retirementCosts;
-        expenses = parsedData.expenses;
-        exchangeRates = parsedData.rate;
-    } else {
-        try {
-            const response = await fetch('countryData.json');
-            const data = await response.json();
-            retirementCosts = data.retirementCosts;
-            expenses = data.expenses;
-            exchangeRates = data.rate;
-            await updateRetirementCosts();
-            saveUpdatedData({ retirementCosts, expenses, rate: exchangeRates });
-        } catch (error) {
-            console.error('Error fetching the data:', error);
-        }
-    }
+function fetchDataAndUpdate() {
+  if (localStorage.getItem("exchangeRates")) {
+    exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
+    document.getElementById("calculateButton").disabled = false; // Enable button here
+  } else {
+    fetch("countryData.json")
+      .then(response => response.json())
+      .then(data => {
+        exchangeRates = data.rates;
+        localStorage.setItem("exchangeRates", JSON.stringify(exchangeRates));
+        document.getElementById("calculateButton").disabled = false; // Enable button here
+      })
+      .catch(error => console.error("Error loading exchange rates:", error));
+  }
+}
     document.getElementById("calculateButton").disabled = false;
     if (typeof callback === "function") {
         callback();
