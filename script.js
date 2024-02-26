@@ -242,38 +242,35 @@ function displayBarGraph(selectedCountry) {
 
 
 async function updateRetirementCosts() {
-    const previousYear = new Date().getFullYear() - 1;
     const countries = Object.keys(expenses); // Assuming all countries in expenses should have retirement costs
 
-    // Use Promise.all to wait for all API calls to complete
-    await Promise.all(countries.map(country => {
-        return getCountryCode(country).then(countryCode => {
-            if (!countryCode) {
-                console.error(`Error retrieving country code for ${country}`);
-                return;
-            }
+    await Promise.all(countries.map(async (country) => {
+        const countryCode = await getCountryCode(country);
+        if (!countryCode) {
+            console.error(`Error retrieving country code for ${country}`);
+            return;
+        }
 
-        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode.toLowerCase()}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
-            return fetch(apiUrl)
-                .then(response => response.json())
-                .then(apiData => {
-                    const gniPerCapita = apiData[1][0].value;
-                    // Update the retirementCosts for the country
-                    retirementCosts[country] = gniPerCapita;
-                    if (country === "USA") {
-                        console.log("USA GNI per Capita:", gniPerCapita);
-                    }
-                })
-                .catch(error => {
-                    console.error(`Error fetching data for ${country}:`, error);
-                });
-        });
-    }))
-    .then(() => {
-        // After updating the retirement costs, save them to localStorage
-        saveUpdatedData({ retirementCosts, expenses });
+        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?format=json&per_page=1&mrv=1`;
+        try {
+            const response = await fetch(apiUrl);
+            const apiData = await response.json();
+            if (apiData && apiData.length > 1 && apiData[1].length > 0) {
+                const gniPerCapita = apiData[1][0].value;
+                // Update the retirementCosts for the country
+                retirementCosts[country] = gniPerCapita;
+                console.log(`${country} GNI per Capita:`, gniPerCapita);
+            } else {
+                console.log(`No GNI per Capita data available for ${country}`);
+            }
+        } catch (error) {
+            console.error(`Error fetching data for ${country}:`, error);
+        }
+    })).then(() => {
+        saveUpdatedData({ retirementCosts, expenses, rate: exchangeRates });
     });
 }
+
 
 function saveUpdatedData(updatedData) {
     try {
