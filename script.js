@@ -176,7 +176,7 @@ function displayExpenses(country) {
         expenseItem.appendChild(expenseText);
 
         expenseDiv.appendChild(expenseItem);
-    }
+    
 }
 
 
