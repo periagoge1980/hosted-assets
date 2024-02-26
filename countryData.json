@@ -90,4 +90,68 @@
       "Doctor check-up": "$20 - $50"
     },
     "Portugal": {
-      
+      "One coffee": "$1 - $2",
+      "One beer": "$2 - $3",
+      "One restaurant meal": "$10 - $15",
+      "Rent - monthly": "$600 - $900",
+      "Public transport - monthly": "$40 - $50",
+      "Doctor check-up": "$50 - $100"
+    },
+    "Spain": {
+      "One coffee": "$1.5 - $2.5",
+      "One beer": "$2 - $4",
+      "One restaurant meal": "$10 - $20",
+      "Rent - monthly": "$700 - $1000",
+      "Public transport - monthly": "$50 - $60",
+      "Doctor check-up": "$60 - $120"
+    },
+    "Vietnam": {
+      "One coffee": "$1 - $2",
+      "One beer": "$1 - $2",
+      "One restaurant meal": "$5 - $10",
+      "Rent - monthly": "$300 - $600",
+      "Public transport - monthly": "$10 - $20",
+      "Doctor check-up": "$20 - $50"
+    },
+    "Belize": {
+      "One coffee": "$2 - $3",
+      "One beer": "$2 - $3",
+      "One restaurant meal": "$10 - $15",
+      "Rent - monthly": "$500 - $800",
+      "Public transport - monthly": "$20 - $30",
+      "Doctor check-up": "$30 - $60"
+    },
+    "Nicaragua": {
+      "One coffee": "$1 - $2",
+      "One beer": "$1 - $2",
+      "One restaurant meal": "$5 - $10",
+      "Rent - monthly": "$300 - $500",
+      "Public transport - monthly": "$10 - $20",
+      "Doctor check-up": "$20 - $40"
+    },
+    "Dominican Republic": {
+      "One coffee": "$1 - $2",
+      "One beer": "$2 - $3",
+      "One restaurant meal": "$10 - $15",
+      "Rent - monthly": "$400 - $700",
+      "Public transport - monthly": "$20 - $30",
+      "Doctor check-up": "$30 - $60"
+    },
+    "Bolivia": {
+      "One coffee": "$1 - $2",
+      "One beer": "$2 - $3",
+      "One restaurant meal": "$5 - $10",
+      "Rent - monthly": "$300 - $500",
+      "Public transport - monthly": "$10 - $20",
+      "Doctor check-up": "$20 - $40"
+    },
+    "Georgia": {
+      "One coffee": "$1 - $2",
+      "One beer": "$1 - $2",
+      "One restaurant meal": "$5 - $10",
+      "Rent - monthly": "$300 - $500",
+      "Public transport - monthly": "$10 - $20",
+      "Doctor check-up": "$20 - $40"
+    },
+    "Philippines": {
+      "One coffee": "$
