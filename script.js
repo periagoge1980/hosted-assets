@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", function() {
+
+document.getElementById("calculateButton").addEventListener("click", function() {
     document.getElementById("calculate").addEventListener("click", calculateYears);
 });
 
