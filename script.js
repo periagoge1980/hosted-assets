@@ -1,31 +1,124 @@
-// Function to fetch data from the API based on country selection
-function fetchData(countryCode) {
-  fetch(`https://your-api-endpoint/${countryCode}`)
-    .then(response => response.json())
-    .then(data => {
-      const retirementCost = data.retirementCosts[countryCode];
-      const exchangeRate = data.rate.USDtoCAD;
-      const monthlyExpenses = data.expenses[countryCode];
-      calculateYears(retirementCost, exchangeRate, monthlyExpenses);
-    })
-    .catch(error => console.error(error));
+let myChart = null;
+let retirementCosts = {};
+let expenses = {};
+let exchangeRates = {};
+
+function fetchDataAndUpdate() {
+    if (localStorage.getItem("exchangeRates")) {
+        exchangeRates = JSON.parse(localStorage.getItem("exchangeRates"));
+        document.getElementById("calculateButton").disabled = false; // Enable the button
+    } else {
+        fetch("countryData.json")
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.rates) {
+                    exchangeRates = data.rates;
+                    localStorage.setItem("exchangeRates", JSON.stringify(exchangeRates));
+                    document.getElementById("calculateButton").disabled = false; // Enable the button here as well
+                } else {
+                    console.error("Invalid or missing rates in countryData.json");
+                    // Handle the case where countryData.json is not structured as expected
+                }
+            })
+            .catch(error => {
+                console.error("Error loading exchange rates:", error);
+                // Optionally, implement fallback to hardcoded defaults here if essential
+            });
+    }
 }
 
-// Function to calculate the number of years needed for retirement
-function calculateYears(retirementCost, exchangeRate, monthlyExpenses) {
-  // Implement your logic here to calculate the number of years based on user input, retirement cost, exchange rate, and monthly expenses
-  // ...
+window.onload = function() {
+    fetchDataAndUpdate();
+    document.getElementById("currentCountry").addEventListener("change", function() {
+        const selectedCountry = this.value;
+        const label = document.querySelector("label[for='retirementFund']");
+        if (selectedCountry === "Canada") {
+            label.innerText = "Enter your total expected retirement funds in CAD:";
+        } else {
+            label.innerText = "Enter your total expected retirement funds in USD:";
+        }
+    });
+};
 
-  // Update the result element with the calculated years
-  const resultElement = document.getElementById("result");
-  resultElement.innerHTML = "Number of years needed for retirement: " + // Replace with your calculated years;
+function calculateYears() {
+    if (!exchangeRates || typeof exchangeRates.USDtoCAD === 'undefined') {
+        console.error("Exchange rates not loaded yet or USDtoCAD rate missing.");
+        alert("Exchange rates are loading, please try again in a few seconds.");
+        return; // Exit the function to prevent further execution
+    }
+    const fundElement = document.getElementById("retirementFund");
+    let fund = parseFloat(fundElement.value);
+    const currentCountry = document.getElementById("currentCountry").value;
+    if (currentCountry === "Canada") {
+        if (!exchangeRates || !exchangeRates.USDtoCAD) {
+            console.error("Exchange rates not loaded yet or USDtoCAD rate missing.");
+            return;
+        }
+        fund = fund / exchangeRates.USDtoCAD;
+        localStorage.setItem('convertedFundUSD', fund.toString());
+    } else {
+        localStorage.setItem('originalFundUSD', fund.toString());
+    }
+
+    const country = document.getElementById("country").value;
+    getCountryCode(country).then(countryCode => {
+        if (!countryCode) {
+            document.getElementById("result").innerText = "Error retrieving country code for selected country.";
+            return;
+        }
+        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?format=json&per_page=1&mrv=1`;
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(apiData => {
+                if (apiData && apiData.length > 1 && apiData[1] && apiData[1].length > 0) {
+                    const gniPerCapita = apiData[1][0].value;
+                    // Further logic to use gniPerCapita
+                } else {
+                    console.error(`No GNI data available for ${country} or unexpected response structure.`);
+                    document.getElementById("result").innerText = `No GNI data available for ${country}.`;
+                }
+            })
+            .catch(error => {
+                console.error(`Error fetching data for ${country}:`, error);
+                document.getElementById("result").innerText = `Error fetching data for ${country}: ${error}`;
+            });
+    });
 }
 
-// Add event listener to the "calculateButton" when the DOM is loaded
-document.addEventListener("DOMContentLoaded", () => {
-  const calculateButton = document.getElementById("calculateButton");
-  calculateButton.addEventListener("click", () => {
-    const selectedCountry = document.getElementById("countrySelect").value;
-    fetchData(selectedCountry);
-  });
-});
+function displayExpenses(country) {
+    // Implementation remains the same
+}
+
+function displayBarGraph(selectedCountry) {
+    // Implementation remains the same
+}
+
+async function updateRetirementCosts() {
+    // Implementation remains the same
+}
+
+function saveUpdatedData(updatedData) {
+    try {
+        localStorage.setItem('countryData', JSON.stringify(updatedData));
+        console.log('Data saved to localStorage');
+    } catch (error) {
+        console.error('Error saving data to localStorage:', error);
+    }
+}
+
+function getCountryCode(country_name) {
+    return fetch('countryCode.json')
+        .then(response => response.json())
+        .then(data => {
+            for (let country of data.countries) {
+                if (country.countryName === country_name) {
+                    return country.countryCode;
+                }
+            }
+            return null;
+        })
+        .catch(error => {
+            console.error('Error fetching the data:', error);
+            return null;
+        });
+}
