@@ -151,11 +151,6 @@ function processRetirementFunds(fund, gniPerCapita, selectedCountry, currentCoun
                 displayExpenses(country);
                 displayBarGraph(country);
             
-            .catch(error => {
-                console.error(`Error fetching data for ${country}:`, error);
-                document.getElementById("result").innerText = `Error fetching data for ${country}: ${error.message}`;
-            });
-
 function displayExpenses(country) {
     const expenseDiv = document.getElementById("expenses");
     expenseDiv.innerHTML = ""; // Clear previous expenses
