@@ -131,8 +131,6 @@ function processRetirementFunds(fund, gniPerCapita, selectedCountry, currentCoun
     displayBarGraph(selectedCountry);
 }
 
-
-
                 const gniPerCapita = apiData[1][0].value;
                 console.log("GNI per Capita for", country, ":", gniPerCapita);
 
@@ -157,9 +155,6 @@ function processRetirementFunds(fund, gniPerCapita, selectedCountry, currentCoun
                 console.error(`Error fetching data for ${country}:`, error);
                 document.getElementById("result").innerText = `Error fetching data for ${country}: ${error.message}`;
             });
-    });
-}
-
 
 function displayExpenses(country) {
     const expenseDiv = document.getElementById("expenses");
