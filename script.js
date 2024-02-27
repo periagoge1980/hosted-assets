@@ -91,13 +91,20 @@ function calculateYears() {
 
         const previousYear = new Date().getFullYear() - 1;
         const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(apiData => {
-                if (!apiData || !apiData[1] || apiData[1].length === 0) {
-                    console.error('Invalid or empty data received from API');
-                    return;
-                }
+       fetch(apiUrl)
+    .then(response => response.json())
+    .then(apiData => {
+        if (!apiData || !apiData[1] || apiData[1].length === 0) {
+            console.error('Invalid or empty data received from API');
+            return;
+        }
+        // Process API data...
+    })
+    .catch(error => {
+        console.error(`Error fetching data for ${country}:`, error);
+        document.getElementById("result").innerText = `Error fetching data for ${country}: ${error.message}`;
+    });
+
 
                 const gniPerCapita = apiData[1][0].value;
                 console.log("GNI per Capita for", country, ":", gniPerCapita);
