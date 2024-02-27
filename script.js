@@ -54,6 +54,7 @@ window.onload = function() {
     });
 };
 function calculateYears() {
+    console.log("calculateYears function called");
     // New snippet starts here
     const fundElement = document.getElementById("retirementFund");
     let fund = parseFloat(fundElement.value);
