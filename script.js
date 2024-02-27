@@ -89,7 +89,8 @@ async function calculateYears() {
         }
 
         const previousYear = new Date().getFullYear() - 1;
-        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
+        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=2022&format=json`;
+   
 
         const response = await fetch(apiUrl);
         const apiData = await response.json();
