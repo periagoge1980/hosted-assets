@@ -56,14 +56,12 @@ window.onload = function() {
 };
 
 function calculateYears() {
-    // New snippet starts here
     const fundElement = document.getElementById("retirementFund");
     let fund = parseFloat(fundElement.value);
 
     const currentCountry = document.getElementById("currentCountry").value;
     if (currentCountry === "Canada") {
         const rate = exchangeRates.USDtoCAD;
- // Make sure countryData is accessible here
         if (rate) {
             fund = fund / rate;
         }
@@ -71,14 +69,10 @@ function calculateYears() {
     } else {
         localStorage.setItem('originalFundUSD', fund);
     }
-    // New snippet ends here
 
-    console.log("USA data when calculating:", retirementCosts["USA"]);
     const country = document.getElementById("country").value;
     const currentCountryCost = retirementCosts[currentCountry];
-    // No need to re-declare, just use the rate variable directly
-    const usaCost = retirementCosts["USA"] || 0; // Default to 0 if undefined
-    console.log("USA Retirement Cost:", usaCost); // Troubleshooting log
+    const usaCost = retirementCosts["USA"] || 0;
 
     if (!usaCost || usaCost === 0) {
         document.getElementById("result").innerText = "Error: Retirement cost data for the USA is missing or zero.";
@@ -100,8 +94,13 @@ function calculateYears() {
         fetch(apiUrl)
             .then(response => response.json())
             .then(apiData => {
+                if (!apiData || !apiData[1] || apiData[1].length === 0) {
+                    console.error('Invalid or empty data received from API');
+                    return;
+                }
+
                 const gniPerCapita = apiData[1][0].value;
-                console.log("GNI per Capita for", country, ":", gniPerCapita); // Troubleshooting log
+                console.log("GNI per Capita for", country, ":", gniPerCapita);
 
                 const totalYearsInSelectedCountry = fund / gniPerCapita;
                 const yearsInSelectedCountry = Math.floor(totalYearsInSelectedCountry);
@@ -122,9 +121,11 @@ function calculateYears() {
             })
             .catch(error => {
                 console.error(`Error fetching data for ${country}:`, error);
+                document.getElementById("result").innerText = `Error fetching data for ${country}: ${error.message}`;
             });
     });
 }
+
 
 function displayExpenses(country) {
     const expenseDiv = document.getElementById("expenses");
