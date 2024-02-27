@@ -89,13 +89,12 @@ async function calculateYears() {
         }
 
         const previousYear = new Date().getFullYear() - 1;
-        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=2022&format=json`;
-   
+        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
 
         const response = await fetch(apiUrl);
         const apiData = await response.json();
 
-        if (!apiData || apiData.length < 2 || !apiData[1][0] || !apiData[1][0].value) {
+        if (!apiData || !apiData[1] || apiData[1].length === 0 || !apiData[1][0].value) {
             console.error('Invalid or empty data received from API');
             document.getElementById("result").innerText = 'Invalid or empty data received from API';
             return;
