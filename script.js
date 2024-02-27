@@ -55,35 +55,34 @@ window.onload = function() {
     });
 };
 
-function calculateYears() {
+async function calculateYears() {
     const fundElement = document.getElementById("retirementFund");
     let fund = parseFloat(fundElement.value);
 
     const currentCountry = document.getElementById("currentCountry").value;
     if (currentCountry === "Canada") {
         const rate = exchangeRates.USDtoCAD;
-        if (rate) {
-            fund = fund / rate;
-        }
-        localStorage.setItem('convertedFundUSD', fund);
+        fund = rate ? fund / rate : fund; // Convert fund to CAD if rate exists
+        localStorage.setItem('convertedFundUSD', fund.toString());
     } else {
-        localStorage.setItem('originalFundUSD', fund);
+        localStorage.setItem('originalFundUSD', fund.toString());
     }
 
-    const country = document.getElementById("country").value;
-    const currentCountryCost = retirementCosts[currentCountry];
-    const usaCost = retirementCosts["USA"] || 0;
+    const selectedCountry = document.getElementById("country").value;
+    const currentCountryCost = retirementCosts[currentCountry] || 0;
 
-    if (!usaCost || usaCost === 0) {
-        document.getElementById("result").innerText = "Error: Retirement cost data for the USA is missing or zero.";
-        return;
-    }
-    if (isNaN(fund)) {
+    // Check if fund is a valid number and if retirement costs data is available
+    if (isNaN(fund) || fund <= 0) {
         document.getElementById("result").innerText = "Please enter a valid retirement fund amount.";
         return;
     }
-    
-    getCountryCode(country).then(countryCode => {
+    if (currentCountryCost <= 0) {
+        document.getElementById("result").innerText = "Error: Retirement cost data for the selected country is missing or zero.";
+        return;
+    }
+
+    try {
+        const countryCode = await getCountryCode(selectedCountry);
         if (!countryCode) {
             document.getElementById("result").innerText = "Error retrieving country code for selected country.";
             return;
@@ -91,19 +90,47 @@ function calculateYears() {
 
         const previousYear = new Date().getFullYear() - 1;
         const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
-       fetch(apiUrl)
-    .then(response => response.json())
-    .then(apiData => {
-        if (!apiData || !apiData[1] || apiData[1].length === 0) {
+
+        const response = await fetch(apiUrl);
+        const apiData = await response.json();
+
+        if (!apiData || apiData.length < 2 || !apiData[1][0] || !apiData[1][0].value) {
             console.error('Invalid or empty data received from API');
+            document.getElementById("result").innerText = 'Invalid or empty data received from API';
             return;
         }
-        // Process API data...
-    })
-    .catch(error => {
-        console.error(`Error fetching data for ${country}:`, error);
-        document.getElementById("result").innerText = `Error fetching data for ${country}: ${error.message}`;
-    });
+
+        const gniPerCapita = apiData[1][0].value;
+        console.log("GNI per Capita for", selectedCountry, ":", gniPerCapita);
+
+        // Calculate years and months the funds will last in the selected country
+        processRetirementFunds(fund, gniPerCapita, selectedCountry, currentCountryCost, currentCountry);
+    } catch (error) {
+        console.error(`Error fetching data for ${selectedCountry}:`, error);
+        document.getElementById("result").innerText = `Error fetching data for ${selectedCountry}: ${error.message}`;
+    }
+}
+
+function processRetirementFunds(fund, gniPerCapita, selectedCountry, currentCountryCost, currentCountry) {
+    const totalYearsInSelectedCountry = fund / gniPerCapita;
+    const yearsInSelectedCountry = Math.floor(totalYearsInSelectedCountry);
+    const monthsInSelectedCountry = Math.round((totalYearsInSelectedCountry - yearsInSelectedCountry) * 12);
+
+    const totalYearsInCurrentCountry = fund / currentCountryCost;
+    const yearsInCurrentCountry = Math.floor(totalYearsInCurrentCountry);
+    const monthsInCurrentCountry = Math.round((totalYearsInCurrentCountry - yearsInCurrentCountry) * 12);
+
+    let resultText = `Assuming you adjust your spending to match the middle-class lifestyle of ${selectedCountry}, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${selectedCountry}, compared to only about ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months in ${currentCountry}.`;
+
+    if (yearsInSelectedCountry > 100) {
+        resultText = `You clearly would not have to worry in ${selectedCountry} as your funds would last you more than a lifetime.`;
+    }
+
+    document.getElementById("result").innerHTML = resultText;
+    displayExpenses(selectedCountry);
+    displayBarGraph(selectedCountry);
+}
+
 
 
                 const gniPerCapita = apiData[1][0].value;
