@@ -1,53 +1,31 @@
+// Function to fetch data from the API based on country selection
+function fetchData(countryCode) {
+  fetch(`https://your-api-endpoint/${countryCode}`)
+    .then(response => response.json())
+    .then(data => {
+      const retirementCost = data.retirementCosts[countryCode];
+      const exchangeRate = data.rate.USDtoCAD;
+      const monthlyExpenses = data.expenses[countryCode];
+      calculateYears(retirementCost, exchangeRate, monthlyExpenses);
+    })
+    .catch(error => console.error(error));
+}
 
-document.getElementById("calculateButton").addEventListener("click", function() {
-    document.getElementById("calculate").addEventListener("click", calculateYears);
+// Function to calculate the number of years needed for retirement
+function calculateYears(retirementCost, exchangeRate, monthlyExpenses) {
+  // Implement your logic here to calculate the number of years based on user input, retirement cost, exchange rate, and monthly expenses
+  // ...
+
+  // Update the result element with the calculated years
+  const resultElement = document.getElementById("result");
+  resultElement.innerHTML = "Number of years needed for retirement: " + // Replace with your calculated years;
+}
+
+// Add event listener to the "calculateButton" when the DOM is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  const calculateButton = document.getElementById("calculateButton");
+  calculateButton.addEventListener("click", () => {
+    const selectedCountry = document.getElementById("countrySelect").value;
+    fetchData(selectedCountry);
+  });
 });
-
-async function getCountryCode(countryName) {
-    const response = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
-    const data = await response.json();
-    return data[0].cca2;
-}
-
-async function calculateYears() {
-    const selectedCountry = document.getElementById("country").value;
-    const fund = document.getElementById("funds").value;
-    const currentCountry = document.getElementById("currentCountry").value;
-    const currentCountryCost = document.getElementById("currentCountryCost").value;
-
-    if (!selectedCountry || !fund || !currentCountry || !currentCountryCost) {
-        document.getElementById("result").innerText = "Please fill in all fields.";
-        return;
-    }
-
-    try {
-        const countryCode = await getCountryCode(selectedCountry);
-        if (!countryCode) {
-            document.getElementById("result").innerText = "Error retrieving country code for selected country.";
-            return;
-        }
-
-        const previousYear = new Date().getFullYear() - 1;
-        const apiUrl = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GNP.PCAP.CD?date=${previousYear}&format=json`;
-
-        const response = await fetch(apiUrl);
-        const apiData = await response.json();
-
-        if (!apiData || !apiData[1] || apiData[1].length === 0 || !apiData[1][0].value) {
-            console.error('Invalid or empty data received from API');
-            document.getElementById("result").innerText = 'Invalid or empty data received from API';
-            return;
-        }
-
-        const gniPerCapita = apiData[1][0].value;
-        processRetirementFunds(fund, gniPerCapita, selectedCountry, currentCountryCost, currentCountry);
-    } catch (error) {
-        console.error(`Error fetching data for ${selectedCountry}:`, error);
-        document.getElementById("result").innerText = `Error fetching data for ${selectedCountry}: ${error.message}`;
-    }
-}
-
-function processRetirementFunds(fund, gniPerCapita, selectedCountry, currentCountryCost, currentCountry) {
-    console.log(`Calculating retirement funds for ${selectedCountry} with GNI per capita of ${gniPerCapita}`);
-    document.getElementById("result").innerText = `Calculation complete for ${selectedCountry}.`;
-}
