@@ -10,6 +10,7 @@ async function fetchDataAndUpdate(callback) {
         const parsedData = JSON.parse(localData);
         retirementCosts = parsedData.retirementCosts;
         expenses = parsedData.expenses;
+        exchangeRates = parsedData.rate;
     } else {
         try {
             // If not in localStorage, fetch from countryData.json
@@ -17,13 +18,14 @@ async function fetchDataAndUpdate(callback) {
             const data = await response.json();
             retirementCosts = data.retirementCosts;
             expenses = data.expenses;
-            exchangeRate = data.exchangeRate;
+            exchangeRates = data.rate;
+
 
             // Then, update the retirement costs
             await updateRetirementCosts();
 
             // After updating the retirement costs, save them to localStorage
-            saveUpdatedData({ retirementCosts, expenses });
+            saveUpdatedData({ retirementCosts, expenses, rate: exchangeRates });
         } catch (error) {
             console.error('Error fetching the data:', error);
             // Handle the error further if needed
@@ -38,7 +40,6 @@ async function fetchDataAndUpdate(callback) {
         callback();
     }
 }
-
 // Call the function on window load
 window.onload = function() {
     fetchDataAndUpdate();
@@ -53,17 +54,18 @@ window.onload = function() {
         }
     });
 };
+
 function calculateYears() {
-    console.log("calculateYears function called");
     // New snippet starts here
     const fundElement = document.getElementById("retirementFund");
     let fund = parseFloat(fundElement.value);
 
     const currentCountry = document.getElementById("currentCountry").value;
     if (currentCountry === "Canada") {
-        const exchangeRate = retirementCosts.exchangeRate.USDtoCAD; // Make sure countryData is accessible here
-        if (exchangeRate) {
-            fund = fund / exchangeRate;
+        const rate = exchangeRates.USDtoCAD;
+ // Make sure countryData is accessible here
+        if (rate) {
+            fund = fund / rate;
         }
         localStorage.setItem('convertedFundUSD', fund);
     } else {
@@ -71,10 +73,10 @@ function calculateYears() {
     }
     // New snippet ends here
 
- console.log("USA data when calculating:", retirementCosts["USA"]);
+    console.log("USA data when calculating:", retirementCosts["USA"]);
     const country = document.getElementById("country").value;
     const currentCountryCost = retirementCosts[currentCountry];
-    const rate = exchangeRate.USDtoCAD;
+    // No need to re-declare, just use the rate variable directly
     const usaCost = retirementCosts["USA"] || 0; // Default to 0 if undefined
     console.log("USA Retirement Cost:", usaCost); // Troubleshooting log
 
@@ -110,9 +112,9 @@ function calculateYears() {
                 const monthsInCurrentCountry = Math.round((totalYearsInCurrentCountry - yearsInCurrentCountry) * 12);
 
                 if (yearsInSelectedCountry > 100) {
-                    document.getElementById("result").innerHTML = `You clearly would not have to worry in ${country} as your funds would last you more than a lifetime (approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months). Your retirement funds would also last you much longer there compared to in ${currentCountry}, where they would last approximately ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months.`;
+                    document.getElementById("result").innerHTML = `You clearly would not have to worry in ${country} as your funds would last you more than a lifetime. Assuming you adjust your spending to match the middle-class lifestyle of that country, they would last you (approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months). Your retirement funds would also last you much longer there compared to in ${currentCountry}, where they would last approximately ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months.`;
                 } else {
-                    document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming a middle-class lifestyle, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months in ${currentCountry}.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
+                    document.getElementById("result").innerHTML = `<b>Great choice! ${country} is a great retirement destination.</b> <br><br>Assuming you adjust your spending to match the middle-class lifestyle of that country, your retirement funds would last approximately ${yearsInSelectedCountry} years and ${monthsInSelectedCountry} months in ${country}, compared to only about ${yearsInCurrentCountry} years and ${monthsInCurrentCountry} months in ${currentCountry}.<br><br><b>Now, consider the price range for these common expenses in ${country}:</b>`;
                 }
 
                 displayExpenses(country);
@@ -270,4 +272,3 @@ function getCountryCode(country_name) {
             return null;
         });
 }
-
